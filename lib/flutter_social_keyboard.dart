@@ -2,80 +2,52 @@ import 'dart:io';
 
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_social_keyboard/models/keyboard_config.dart';
+import 'package:flutter_social_keyboard/widgets/emoji_picker_widget.dart';
 
 //Bottom bar height, bg-color, icon-color, active-icon-color
 class FlutterSocialKeyboard extends StatefulWidget {
-  const FlutterSocialKeyboard({Key? key}) : super(key: key);
+  final KeyboardConfig? keyboardConfig;
+  const FlutterSocialKeyboard({Key? key, this.keyboardConfig})
+      : super(key: key);
 
   @override
   State<FlutterSocialKeyboard> createState() => _FlutterSocialKeyboardState();
 }
 
 class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
-          child: EmojiPicker(
-            onEmojiSelected: (Category category, Emoji emoji) {
-              // Do something when emoji is tapped (optional)
-              print(emoji.name);
-              print(emoji.emoji);
-            },
-            onBackspacePressed: () {
-              // Do something when the user taps the backspace button (optional)
-            },
-            // textEditingController:
-            //     textEditionController, // pass here the same [TextEditingController] that is connected to your input field, usually a [TextFormField]
-            config: Config(
-              columns: 7,
-              emojiSizeMax: 32 *
-                  (Platform.isIOS
-                      ? 1.30
-                      : 1.0), // Issue: https://github.com/flutter/flutter/issues/28894
-              verticalSpacing: 0,
-              horizontalSpacing: 0,
-              gridPadding: EdgeInsets.zero,
-              initCategory: Category.RECENT,
-              bgColor: const Color(0xFFF2F2F2),
-              indicatorColor: Colors.blue,
-              iconColor: Colors.grey,
-              iconColorSelected: Colors.blue,
-              progressIndicatorColor: Colors.blue,
-              backspaceColor: Colors.blue,
-              skinToneDialogBgColor: Colors.white,
-              skinToneIndicatorColor: Colors.grey,
-              enableSkinTones: true,
-              showRecentsTab: true,
-              recentsLimit: 28,
-              noRecents: const Text(
-                'No Recents',
-                style: TextStyle(fontSize: 20, color: Colors.black26),
-                textAlign: TextAlign.center,
-              ),
-              // tabIndicatorAnimDuration: kTabScrollDuration,
-              categoryIcons: const CategoryIcons(),
-              buttonMode: ButtonMode.MATERIAL,
-            ),
+          child: IndexedStack(
+            index: _currentIndex,
+            children: [
+              EmojiPickerWidget(
+                  keyboardConfig:
+                      widget.keyboardConfig ?? const KeyboardConfig())
+            ],
           ),
         ),
         Container(
           height: 50,
           padding: EdgeInsets.zero,
           decoration: const BoxDecoration(
-            color: Colors.white,
+            color: Color(0xFFF2F2F2),
             boxShadow: [
               BoxShadow(
                 color: Color.fromRGBO(43, 52, 69, .1),
-                offset: Offset(0, 3),
-                spreadRadius: 5,
-                blurRadius: 7,
+                offset: Offset(0, -5),
+                spreadRadius: 10,
+                blurRadius: 200,
               ),
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -88,19 +60,30 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
                   ),
                 ),
                 const Spacer(),
-                const Image(
-                  image: AssetImage(
-                    'icons/icons8-emoji-96.png',
-                    package: 'flutter_social_keyboard',
-                  ),
+                _getImgIcon(
+                  image: "icons8-emoji-96.png",
+                  color: _currentIndex == 0
+                      ? Config().iconColorSelected
+                      : Config().iconColor,
                 ),
-                Image.asset(
-                  "icons/icons8-gif-96.png",
-                  package: 'flutter_social_keyboard',
+                const SizedBox(
+                  width: 15,
                 ),
-                Image.asset(
-                  "icons/icons8-sticker-100.png",
-                  package: 'flutter_social_keyboard',
+                _getImgIcon(
+                  image: "icons8-gif-96.png",
+                  size: 26,
+                  color: _currentIndex == 1
+                      ? Config().iconColorSelected
+                      : Config().iconColor,
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
+                _getImgIcon(
+                  image: "icons8-sticker-100.png",
+                  color: _currentIndex == 2
+                      ? Config().iconColorSelected
+                      : Config().iconColor,
                 ),
                 const Spacer(),
                 IconButton(
@@ -112,8 +95,22 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
               ],
             ),
           ),
-        )
+        ),
       ],
+    );
+  }
+
+  Image _getImgIcon({
+    required String image,
+    required Color color,
+    double size = 22,
+  }) {
+    return Image.asset(
+      "icons/$image",
+      package: 'flutter_social_keyboard',
+      width: size,
+      height: size,
+      color: color,
     );
   }
 }
