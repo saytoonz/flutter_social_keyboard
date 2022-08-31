@@ -14,7 +14,7 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
   @override
   Widget build(BuildContext context) {
     return EmojiPicker(
-      onEmojiSelected: (category, emoji) {
+      onEmojiSelected: (Category category, Emoji emoji) {
         // Do something when emoji is tapped (optional)
       },
       onBackspacePressed: () {
