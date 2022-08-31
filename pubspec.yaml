@@ -23,7 +23,8 @@ flutter:
   #   platforms:
   #     # some_platform:
   #     #   pluginClass: somePluginClass
-
-
+  
   assets:
-    - assets/icons/
+    - packages/flutter_social_keyboard/icons/icons8-emoji-96.png
+    - packages/flutter_social_keyboard/icons/icons8-gif-96.png
+    - packages/flutter_social_keyboard/icons/icons8-sticker-100.png

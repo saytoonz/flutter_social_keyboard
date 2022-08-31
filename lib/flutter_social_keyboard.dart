@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 
-//Bottom bar height, bg-color
+//Bottom bar height, bg-color, icon-color, active-icon-color
 class FlutterSocialKeyboard extends StatefulWidget {
   const FlutterSocialKeyboard({Key? key}) : super(key: key);
 
@@ -74,17 +74,39 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
               ),
             ],
           ),
-          child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "😃",
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 20,
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.search,
+                  ),
+                ),
+                const Spacer(),
+                const Image(
+                  image: AssetImage(
+                    'icons/icons8-emoji-96.png',
+                    package: 'flutter_social_keyboard',
+                  ),
+                ),
+                Image.asset(
+                  "icons/icons8-gif-96.png",
+                  package: 'flutter_social_keyboard',
+                ),
+                Image.asset(
+                  "icons/icons8-sticker-100.png",
+                  package: 'flutter_social_keyboard',
+                ),
+                const Spacer(),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.backspace_outlined,
                   ),
                 ),
               ],
