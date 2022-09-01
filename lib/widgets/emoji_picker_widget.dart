@@ -2,12 +2,16 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 
-export 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
-
 class EmojiPickerWidget extends StatefulWidget {
   final KeyboardConfig keyboardConfig;
-  const EmojiPickerWidget({Key? key, required this.keyboardConfig})
-      : super(key: key);
+  final Function(Category, Emoji)? onEmojiSelected;
+  final Function()? onBackspacePressed;
+  const EmojiPickerWidget({
+    Key? key,
+    required this.keyboardConfig,
+    this.onEmojiSelected,
+    this.onBackspacePressed,
+  }) : super(key: key);
 
   @override
   State<EmojiPickerWidget> createState() => _EmojiPickerWidgetState();
@@ -17,18 +21,12 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
   @override
   Widget build(BuildContext context) {
     return EmojiPicker(
-      onEmojiSelected: (Category category, Emoji emoji) {
-        // Do something when emoji is tapped (optional)
-        print(emoji.name);
-        print(emoji.emoji);
-      },
-      onBackspacePressed: () {
-        // Do something when the user taps the backspace button (optional)
-      },
+      onEmojiSelected: widget.onEmojiSelected,
+      onBackspacePressed: widget.onBackspacePressed,
       // textEditingController:
       //     textEditionController, // pass here the same [TextEditingController] that is connected to your input field, usually a [TextFormField]
       config: Config(
-        columns: widget.keyboardConfig.columns,
+        columns: widget.keyboardConfig.emojiColumns,
         emojiSizeMax: widget.keyboardConfig.emojiSizeMax,
         verticalSpacing: widget.keyboardConfig.verticalSpacing,
         horizontalSpacing: widget.keyboardConfig.horizontalSpacing,
@@ -45,6 +43,8 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
         enableSkinTones: widget.keyboardConfig.enableSkinTones,
         showRecentsTab: widget.keyboardConfig.showRecentsTab,
         recentsLimit: widget.keyboardConfig.recentsLimit,
+        replaceEmojiOnLimitExceed:
+            widget.keyboardConfig.replaceEmojiOnLimitExceed,
         noRecents: widget.keyboardConfig.noRecents,
         tabIndicatorAnimDuration:
             widget.keyboardConfig.tabIndicatorAnimDuration,
