@@ -16,6 +16,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Emoji? selectedEmoji;
+  GiphyGif? selectedGif;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,27 +30,54 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             children: [
               Expanded(
-                child: Center(
-                    child: Text(
-                  selectedEmoji?.emoji ?? "NO emoji selected",
-                  style: const TextStyle(
-                    fontSize: 40,
-                  ),
-                )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      selectedEmoji?.emoji ?? "NO emoji selected",
+                      style: const TextStyle(
+                        fontSize: 40,
+                      ),
+                    ),
+                    //
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    selectedGif != null
+                        ? Image.network(
+                            selectedGif!.images!.downsizedLarge!.url!,
+                            height: 100,
+                            fit: BoxFit.contain,
+                            loadingBuilder:
+                                ((context, child, loadingProgress) =>
+                                    const CircularProgressIndicator.adaptive()),
+                          )
+                        : const Text(
+                            "NO GIF selected",
+                            style: TextStyle(
+                              fontSize: 40,
+                            ),
+                          ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 250,
                 child: FlutterSocialKeyboard(
                   onEmojiSelected: (Category category, Emoji emoji) {
                     // Do something when emoji is tapped (optional)
-                    print(emoji.name);
-                    print(emoji.emoji);
+
+                    // print(emoji);
                     selectedEmoji = emoji;
                     setState(() {});
                   },
                   onGifSelected: (GiphyGif gif) {
                     // Do something when gif is tapped (optional)
-                    print(gif.toJson());
+
+                    // print(gif);
+                    selectedGif = gif;
+                    setState(() {});
                   },
                   onBackspacePressed: () {
                     // Do something when the user taps the backspace button (optional)
@@ -56,6 +85,9 @@ class _MyAppState extends State<MyApp> {
                   keyboardConfig: KeyboardConfig(
                     giphyAPIKey: "vkOdSI3QLuAopjBKdwzeLC0mTCRJXIQM",
                     gifTabs: ["Hey", "One", 'Haha', 'Sad', 'Love', 'Reaction'],
+                    gifHorizontalSpacing: 10,
+                    gifVerticalSpacing: 10,
+                    //
                     emojiColumns: 9,
                     emojiSizeMax: 32 * (Platform.isIOS ? 1.30 : 1.0),
                     verticalSpacing: 0,

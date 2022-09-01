@@ -65,7 +65,7 @@ class _GifPickerWidgetState extends State<GifPickerWidget>
               tabs: _tabs
                   .asMap()
                   .entries
-                  .map<Widget>((item) => _buildCategory(item.key, item.value))
+                  .map((item) => _buildCategory(item.key, item.value))
                   .toList(),
             ),
           ),

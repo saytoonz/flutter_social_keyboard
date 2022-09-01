@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_social_keyboard/flutter_social_keyboard.dart';
 import 'package:flutter_social_keyboard/models/collection.dart';
 import 'package:flutter_social_keyboard/resources/client.dart';
@@ -28,7 +25,7 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
   late GiphyClient client =
       GiphyClient(apiKey: widget.keyboardConfig.giphyAPIKey ?? "");
   int _offset = 0;
-  int _limit = 30;
+  final int _limit = 30;
 
   bool _loaded = false;
   GiphyCollection? _collection;
@@ -39,7 +36,6 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
   }
 
   _increaseOffSet() {
-    print(_collection);
     setState(() {
       _offset = _offset + 30;
       _loaded = true;
@@ -103,9 +99,12 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
                 itemCount: _collection!.data!.length,
                 scrollDirection: Axis.vertical,
                 controller: _scrollController,
+                padding: widget.keyboardConfig.gridPadding,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: widget.keyboardConfig.gifColumns,
-                ),
+                    crossAxisCount: widget.keyboardConfig.gifColumns,
+                    crossAxisSpacing:
+                        widget.keyboardConfig.gifHorizontalSpacing,
+                    mainAxisSpacing: widget.keyboardConfig.gifVerticalSpacing),
                 itemBuilder: (context, index) {
                   // return  Image.network(
                   //     _collection!.data![index]!.images!.previewGif!.url!);

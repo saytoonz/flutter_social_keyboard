@@ -8,6 +8,8 @@ class KeyboardConfig {
     this.giphyAPIKey,
     this.gifTabs = const ['Haha', 'Sad', 'Love', 'Reaction'],
     this.gifColumns = 3,
+    this.gifVerticalSpacing = 5,
+    this.gifHorizontalSpacing = 5,
     this.emojiColumns = 7,
     this.emojiSizeMax = 32.0,
     this.verticalSpacing = 0,
@@ -39,6 +41,8 @@ class KeyboardConfig {
   final String? giphyAPIKey;
   final List<String> gifTabs;
   final int gifColumns;
+  final double gifVerticalSpacing;
+  final double gifHorizontalSpacing;
 
   /// Number of emojis per row
   final int emojiColumns;
@@ -54,7 +58,7 @@ class KeyboardConfig {
   final double horizontalSpacing;
 
   /// The initial [Category] that will be selected
-  /// This [Category] will have its button in the bottombar darkened
+  /// This [Category] will have its button in the bottomBar darkened
   final Category initCategory;
 
   /// The background color of the Widget
@@ -69,7 +73,7 @@ class KeyboardConfig {
   /// The color of the category icon when selected
   final Color iconColorSelected;
 
-  /// The color of the loading indicator during initalization
+  /// The color of the loading indicator during initialization
   final Color progressIndicatorColor;
 
   /// The color of the backspace icon button
