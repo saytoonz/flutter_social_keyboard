@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_social_keyboard/flutter_social_keyboard.dart';
 import 'package:flutter_social_keyboard/models/collection.dart';
 import 'package:flutter_social_keyboard/resources/client.dart';
@@ -8,11 +12,13 @@ class GiphyDisplay extends StatefulWidget {
   final String searchKeyword;
   final KeyboardConfig keyboardConfig;
   final Function(GiphyGif)? onGifSelected;
+  final StreamController<String> scrollStream;
   const GiphyDisplay({
     Key? key,
     required this.searchKeyword,
     required this.keyboardConfig,
     this.onGifSelected,
+    required this.scrollStream,
   }) : super(key: key);
 
   @override
@@ -33,6 +39,20 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
   void initState() {
     super.initState();
     _getGifs();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _scrollController.addListener(() {
+        if (_scrollController.position.userScrollDirection ==
+            ScrollDirection.forward) {
+          // print("Show Keyboard");
+          widget.scrollStream.add("showNav");
+        } else if (_scrollController.position.userScrollDirection ==
+            ScrollDirection.reverse) {
+          // print("Hide Keyboard");
+          widget.scrollStream.add("hideNav");
+        }
+      });
+    });
   }
 
   _increaseOffSet() {
