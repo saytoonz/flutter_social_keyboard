@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_social_keyboard/models/gif.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
@@ -7,9 +9,12 @@ class GifPickerWidget extends StatefulWidget {
   final KeyboardConfig keyboardConfig;
   final Function(GiphyGif)? onGifSelected;
 
+  final StreamController<String> scrollStream;
+
   const GifPickerWidget({
     Key? key,
     required this.keyboardConfig,
+    required this.scrollStream,
     this.onGifSelected,
   }) : super(key: key);
 
@@ -35,10 +40,11 @@ class _GifPickerWidgetState extends State<GifPickerWidget>
     super.initState();
 
     _tabController = TabController(
-        initialIndex: initCategory, length: _tabs.length, vsync: this);
+        initialIndex: initCategory, length: _tabs.length, vsync: this)
+      ..addListener(() => widget.scrollStream.add('showNav'));
 
-    _pageController = PageController(initialPage: initCategory);
-    //   ..addListener(_closeSkinToneDialog);
+    _pageController = PageController(initialPage: initCategory)
+      ..addListener((() => widget.scrollStream.add('showNav')));
   }
 
   @override
@@ -86,6 +92,7 @@ class _GifPickerWidgetState extends State<GifPickerWidget>
                       searchKeyword: _tabs[index],
                       keyboardConfig: widget.keyboardConfig,
                       onGifSelected: widget.onGifSelected,
+                      scrollStream: widget.scrollStream,
                     ),
                   ),
                 ),
