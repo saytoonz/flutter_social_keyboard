@@ -36,6 +36,7 @@ class KeyboardConfig {
     this.tabIndicatorAnimDuration = kTabScrollDuration,
     this.categoryIcons = const CategoryIcons(),
     this.buttonMode = ButtonMode.MATERIAL,
+    this.withSafeArea = true,
   });
 
   final String? giphyAPIKey;
@@ -43,6 +44,7 @@ class KeyboardConfig {
   final int gifColumns;
   final double gifVerticalSpacing;
   final double gifHorizontalSpacing;
+  final bool withSafeArea;
 
   /// Number of emojis per row
   final int emojiColumns;
