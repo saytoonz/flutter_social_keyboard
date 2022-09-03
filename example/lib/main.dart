@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_gif/flutter_gif.dart';
 import 'package:flutter_social_keyboard/flutter_social_keyboard.dart';
 
 void main() {
@@ -14,9 +17,20 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   Emoji? selectedEmoji;
   GiphyGif? selectedGif;
+  late FlutterGifController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = FlutterGifController(vsync: this);
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      // controller
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +58,13 @@ class _MyAppState extends State<MyApp> {
                     height: 10,
                   ),
                   selectedGif != null
-                      ? Image.network(
-                          selectedGif!.images!.previewGif!.url!,
-                          height: 100,
-                          fit: BoxFit.contain,
-                          loadingBuilder: ((context, child, loadingProgress) =>
+                      ? CachedNetworkImage(
+                          imageUrl: selectedGif!.images!.previewGif!.url!,
+                          fit: BoxFit.fitHeight,
+                          height: 150,
+                          errorWidget: ((context, url, error) =>
+                              Text(error.toString())),
+                          placeholder: ((context, url) =>
                               const CircularProgressIndicator.adaptive()),
                         )
                       : const Text(
