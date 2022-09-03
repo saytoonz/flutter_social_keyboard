@@ -26,7 +26,7 @@ class GiphyDisplay extends StatefulWidget {
 }
 
 class _GiphyDisplayState extends State<GiphyDisplay> {
-  late final _scrollController = ScrollController();
+  ScrollController _scrollController = ScrollController();
 
   late GiphyClient client =
       GiphyClient(apiKey: widget.keyboardConfig.giphyAPIKey ?? "");
@@ -34,9 +34,12 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
   final int _limit = 30;
 
   bool _loaded = false;
+  bool _loadingMore = true;
+
   GiphyCollection? _collection;
   @override
   void initState() {
+    _scrollController = ScrollController();
     super.initState();
     _getGifs();
 
@@ -51,6 +54,15 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
           // print("Hide Keyboard");
           widget.scrollStream.add("hideNav");
         }
+
+        double maxScroll = _scrollController.position.maxScrollExtent;
+        double currentScroll = _scrollController.position.pixels;
+        // Once it's less than 200px to reach bottom, do something
+        double delta = 200.0;
+
+        if (maxScroll - currentScroll <= delta && !_loadingMore) {
+          _loadMore();
+        }
       });
     });
   }
@@ -59,6 +71,7 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
     setState(() {
       _offset = _offset + 30;
       _loaded = true;
+      _loadingMore = false;
     });
   }
 
@@ -67,28 +80,70 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
       _loaded = false;
     });
     GiphyCollection? collection;
-    if (widget.searchKeyword.isEmpty) {
-      //Fetch recent
-      collection = null;
-    } else if (widget.searchKeyword == 'trending') {
-      //Trending
-      collection = await client.trending(
-        offset: _offset,
-        limit: _limit,
-      );
-    } else {
-      //Search
-      collection = await client.search(
-        widget.searchKeyword,
-        offset: _offset,
-        limit: _limit,
-      );
-    }
 
+    try {
+      if (widget.searchKeyword.isEmpty) {
+        //Fetch recent
+        collection = null;
+      } else if (widget.searchKeyword == 'trending') {
+        //Trending
+        collection = await client.trending(
+          offset: _offset,
+          limit: _limit,
+        );
+      } else {
+        //Search
+        collection = await client.search(
+          widget.searchKeyword,
+          offset: _offset,
+          limit: _limit,
+        );
+      }
+
+      setState(() {
+        _collection = collection;
+      });
+      _increaseOffSet();
+    } catch (e) {
+      setState(() {
+        _collection = null;
+        _loaded = true;
+      });
+    }
+  }
+
+  _loadMore() async {
     setState(() {
-      _collection = collection;
+      _loadingMore = true;
     });
-    _increaseOffSet();
+    GiphyCollection? collection;
+
+    try {
+      if (widget.searchKeyword.isEmpty) {
+        //Fetch recent
+        collection = null;
+      } else if (widget.searchKeyword == 'trending') {
+        //Trending
+        collection = await client.trending(
+          offset: _offset,
+          limit: _limit,
+        );
+      } else {
+        //Search
+        collection = await client.search(
+          widget.searchKeyword,
+          offset: _offset,
+          limit: _limit,
+        );
+      }
+      _collection!.data!.addAll(collection!.data!);
+      setState(() {});
+      _increaseOffSet();
+    } catch (e) {
+      setState(() {
+        _loadingMore = false;
+      });
+    }
   }
 
   @override
@@ -115,36 +170,61 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
                   )
                 ],
               )
-            : GridView.builder(
-                itemCount: _collection!.data!.length,
-                scrollDirection: Axis.vertical,
+            : SingleChildScrollView(
                 controller: _scrollController,
-                padding: widget.keyboardConfig.gridPadding,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: widget.keyboardConfig.gifColumns,
-                    crossAxisSpacing:
-                        widget.keyboardConfig.gifHorizontalSpacing,
-                    mainAxisSpacing: widget.keyboardConfig.gifVerticalSpacing),
-                itemBuilder: (context, index) {
-                  // return  Image.network(
-                  //     _collection!.data![index]!.images!.previewGif!.url!);
-                  return InkWell(
-                    onTap: () {
-                      if (widget.onGifSelected != null) {
-                        widget.onGifSelected!(_collection!.data![index]!);
-                      }
-                    },
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          _collection!.data![index]!.images!.previewGif!.url!,
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator.adaptive(),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      fit: BoxFit.cover,
+                child: Column(
+                  children: [
+                    GridView.builder(
+                      itemCount: _collection!.data!.length,
+                      shrinkWrap: true,
+                      primary: false,
+                      scrollDirection: Axis.vertical,
+                      // controller: _scrollController,
+                      padding: widget.keyboardConfig.gridPadding,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: widget.keyboardConfig.gifColumns,
+                          crossAxisSpacing:
+                              widget.keyboardConfig.gifHorizontalSpacing,
+                          mainAxisSpacing:
+                              widget.keyboardConfig.gifVerticalSpacing),
+                      itemBuilder: (context, index) {
+                        // return  Image.network(
+                        //     _collection!.data![index]!.images!.previewGif!.url!);
+                        return InkWell(
+                          onTap: () {
+                            if (widget.onGifSelected != null) {
+                              widget.onGifSelected!(_collection!.data![index]!);
+                            }
+                          },
+                          child: CachedNetworkImage(
+                            imageUrl: _collection!
+                                .data![index]!.images!.previewGif!.url!,
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator.adaptive(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                    Visibility(
+                      visible: _loadingMore,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: CircularProgressIndicator.adaptive(
+                                // backgroundColor: Colors.red,
+                                ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               );
   }
 }
