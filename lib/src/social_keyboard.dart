@@ -7,6 +7,7 @@ import 'package:flutter_social_keyboard/models/gif.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/widgets/emoji_picker_widget.dart';
 import 'package:flutter_social_keyboard/widgets/gif_picker_widget.dart';
+import 'package:flutter_social_keyboard/widgets/sticker_picker_widget.dart';
 
 //Bottom bar height, bg-color, icon-color, active-icon-color
 //
@@ -81,7 +82,7 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
                   onGifSelected: widget.onGifSelected,
                   scrollStream: scrollStream,
                 ),
-                Container(),
+                StickerPickerWidget(),
               ],
             ),
           ),
