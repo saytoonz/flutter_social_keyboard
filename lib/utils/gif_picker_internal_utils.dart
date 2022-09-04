@@ -7,7 +7,7 @@ import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/models/recent_gif.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class StickerPickerInternalUtils {
+class GiphyGifPickerInternalUtils {
   /// Returns list of recently used Stickers from cache
   Future<List<RecentGiphyGif>> getRecentStickers() async {
     final prefs = await SharedPreferences.getInstance();
