@@ -20,6 +20,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   Emoji? selectedEmoji;
   GiphyGif? selectedGif;
+  String? selectedSticker;
   late FlutterGifController controller;
 
   @override
@@ -73,6 +74,22 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                             fontSize: 20,
                           ),
                         ),
+                  //
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  (selectedSticker ?? "").isNotEmpty
+                      ? Image.asset(
+                          selectedSticker ?? "",
+                          height: 100,
+                        )
+                      : const Text(
+                          "NO Sticker selected",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
                 ],
               ),
             ),
@@ -83,18 +100,28 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                   // Do something when emoji is tapped (optional)
 
                   // print(emoji);
-                  selectedEmoji = emoji;
-                  setState(() {});
+                  setState(() {
+                    selectedEmoji = emoji;
+                  });
                 },
                 onGifSelected: (GiphyGif gif) {
                   // Do something when gif is tapped (optional)
 
                   // print(gif);
-                  selectedGif = gif;
-                  setState(() {});
+                  setState(() {
+                    selectedGif = gif;
+                  });
+                },
+                onStickerSelected: (String assetUrl) {
+                  // Do something when sticker is tapped (optional)
+                  print(assetUrl);
+                  setState(() {
+                    selectedSticker = assetUrl;
+                  });
                 },
                 onBackspacePressed: () {
                   // Do something when the user taps the backspace button (optional)
+                  // print("Backspace button pres ");
                 },
                 keyboardConfig: KeyboardConfig(
                   giphyAPIKey: "vkOdSI3QLuAopjBKdwzeLC0mTCRJXIQM",

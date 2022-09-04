@@ -106,7 +106,7 @@ class _GifPickerWidgetState extends State<GifPickerWidget>
       child: index == 0
           ? const Icon(Icons.access_time)
           : Text(
-              title,
+              title.toUpperCase(),
             ),
     );
   }
