@@ -1,4 +1,4 @@
-import 'package:flutter_social_keyboard/models/gif.dart';
+import 'package:flutter_social_keyboard/models/giphy_gif.dart';
 
 class GiphyCollection {
   final List<GiphyGif?>? data;
