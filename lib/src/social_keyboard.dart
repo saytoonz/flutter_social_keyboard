@@ -16,12 +16,14 @@ class FlutterSocialKeyboard extends StatefulWidget {
   final Function(Category, Emoji)? onEmojiSelected;
   final Function()? onBackspacePressed;
   final Function(GiphyGif)? onGifSelected;
+  final Function(String)? onStickerSelected;
   const FlutterSocialKeyboard({
     Key? key,
     this.keyboardConfig = const KeyboardConfig(),
     this.onEmojiSelected,
     this.onGifSelected,
     this.onBackspacePressed,
+    this.onStickerSelected,
   }) : super(key: key);
 
   @override
@@ -82,7 +84,11 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
                   onGifSelected: widget.onGifSelected,
                   scrollStream: scrollStream,
                 ),
-                StickerPickerWidget(),
+                StickerPickerWidget(
+                  keyboardConfig: widget.keyboardConfig,
+                  onStickerSelected: widget.onStickerSelected,
+                  scrollStream: scrollStream,
+                ),
               ],
             ),
           ),
@@ -135,10 +141,17 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
                     ),
                     _getImgIcon(image: "icons8-sticker-100.png", index: 2),
                     const Spacer(),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.backspace_outlined,
+                    Opacity(
+                      opacity: _currentIndex == 0 ? 1 : 0,
+                      child: IconButton(
+                        onPressed: () {
+                          if (_currentIndex != 0 ||
+                              widget.onBackspacePressed == null) return;
+                          widget.onBackspacePressed!();
+                        },
+                        icon: const Icon(
+                          Icons.backspace_outlined,
+                        ),
                       ),
                     ),
                   ],
