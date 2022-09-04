@@ -44,9 +44,9 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
 
   void updateRecentGiphyGifs(List<RecentGiphyGif> recentGiphyGif,
       {bool refresh = false}) {
-    _collection =
-        GiphyCollection(data: recentGiphyGif.map((e) => e.gif).toList());
     if (mounted && refresh) {
+      _collection =
+          GiphyCollection(data: recentGiphyGif.map((e) => e.gif).toList());
       setState(() {});
     }
   }
@@ -122,10 +122,12 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
       });
       _increaseOffSet();
     } catch (e) {
-      setState(() {
-        _collection = null;
-        _loaded = true;
-      });
+      if (mounted) {
+        setState(() {
+          _collection = null;
+          _loaded = true;
+        });
+      }
     }
   }
 
