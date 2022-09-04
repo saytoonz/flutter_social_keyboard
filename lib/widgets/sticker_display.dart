@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_social_keyboard/models/Sticker.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/models/sticker_model.dart';
 
 class StickerDisplay extends StatefulWidget {
   final StickerModel stickerModel;
   final KeyboardConfig keyboardConfig;
-  final Function(String)? onStickerSelected;
+  final Function(Sticker)? onStickerSelected;
   final StreamController<String> scrollStream;
   const StickerDisplay({
     Key? key,
@@ -68,8 +69,10 @@ class _StickerDisplayState extends State<StickerDisplay> {
               return InkWell(
                 onTap: () {
                   if (widget.onStickerSelected != null) {
-                    widget.onStickerSelected!(
-                        widget.stickerModel.assetUrls[index]);
+                    widget.onStickerSelected!(Sticker(
+                      assetUrl: widget.stickerModel.assetUrls[index],
+                      category: widget.stickerModel.title,
+                    ));
                   }
                 },
                 child: Image.asset(
