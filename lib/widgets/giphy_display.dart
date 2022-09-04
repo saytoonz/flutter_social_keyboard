@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 
 import 'package:flutter_social_keyboard/models/collection.dart';
-import 'package:flutter_social_keyboard/models/gif.dart';
+import 'package:flutter_social_keyboard/models/giphy_gif.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/resources/client.dart';
 
@@ -99,6 +99,7 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
           widget.searchKeyword,
           offset: _offset,
           limit: _limit,
+          lang: widget.keyboardConfig.gifLang,
         );
       }
 
@@ -136,6 +137,7 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
           widget.searchKeyword,
           offset: _offset,
           limit: _limit,
+          lang: widget.keyboardConfig.gifLang,
         );
       }
       _collection!.data!.addAll(collection!.data!);
