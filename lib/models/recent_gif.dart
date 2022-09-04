@@ -1,8 +1,8 @@
 import 'package:flutter_social_keyboard/models/giphy_gif.dart';
 
-class RecentSticker {
+class RecentGiphyGif {
   /// Constructor
-  RecentSticker(this.gif, this.counter);
+  RecentGiphyGif(this.gif, this.counter);
 
   /// Sticker instance
   final GiphyGif gif;
@@ -11,8 +11,8 @@ class RecentSticker {
   int counter = 0;
 
   /// Parse RecentEmoji from json
-  static RecentSticker fromJson(dynamic json) {
-    return RecentSticker(
+  static RecentGiphyGif fromJson(dynamic json) {
+    return RecentGiphyGif(
       GiphyGif.fromJson(json['gif'] as Map<String, dynamic>),
       json['counter'] as int,
     );
