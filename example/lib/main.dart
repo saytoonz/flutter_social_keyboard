@@ -128,12 +128,14 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                   gifTabs: ["Hey", "One", 'Haha', 'Sad', 'Love', 'Reaction'],
                   gifHorizontalSpacing: 5,
                   gifVerticalSpacing: 5,
-                  withSafeArea: true,
                   gifColumns: 3,
+                  gifLang: GiphyLanguage.english,
                   //
                   stickerColumns: 5,
                   stickerHorizontalSpacing: 5,
                   stickerVerticalSpacing: 5,
+                  //
+                  withSafeArea: true,
                   //
                   emojiColumns: 9,
                   emojiSizeMax: 32 * (Platform.isIOS ? 1.30 : 1.0),
