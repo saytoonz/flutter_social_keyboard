@@ -10,7 +10,7 @@ import 'package:flutter_social_keyboard/models/giphy_gif.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/models/recent_gif.dart';
 import 'package:flutter_social_keyboard/resources/client.dart';
-import 'package:flutter_social_keyboard/utils/gif_picker_internal_utils.dart';
+import 'package:flutter_social_keyboard/utils/giphy_gif_picker_internal_utils.dart';
 
 class GiphyDisplay extends StatefulWidget {
   final String searchKeyword;
@@ -41,6 +41,16 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
   bool _loadingMore = true;
 
   GiphyCollection? _collection;
+
+  void updateRecentGiphyGifs(List<RecentGiphyGif> recentGiphyGif,
+      {bool refresh = false}) {
+    _collection =
+        GiphyCollection(data: recentGiphyGif.map((e) => e.gif).toList());
+    if (mounted && refresh) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -89,7 +99,7 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
       if (widget.searchKeyword.isEmpty) {
         //Fetch recent
         List<RecentGiphyGif> recents =
-            await GiphyGifPickerInternalUtils().getRecentStickers();
+            await GiphyGifPickerInternalUtils().getRecentGiphyGifs();
         collection = GiphyCollection(data: recents.map((e) => e.gif).toList());
       } else if (widget.searchKeyword == 'trending') {
         //Trending
@@ -199,6 +209,22 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
+                            if (widget.keyboardConfig.showRecentsTab) {
+                              GiphyGifPickerInternalUtils()
+                                  .addGiphyGifToRecentlyUsed(
+                                      giphyGif: _collection!.data![index]!,
+                                      config: widget.keyboardConfig)
+                                  .then((newRecentEmoji) => {
+                                        // we don't want to rebuild the widget if user is currently on
+                                        // the RECENT tab, it will make emojis jump since sorting
+                                        // is based on the use frequency
+                                        updateRecentGiphyGifs(
+                                          newRecentEmoji,
+                                          refresh: widget.searchKeyword.isEmpty,
+                                        )
+                                      });
+                            }
+
                             if (widget.onGifSelected != null) {
                               widget.onGifSelected!(_collection!.data![index]!);
                             }
