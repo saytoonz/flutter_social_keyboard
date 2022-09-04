@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_social_keyboard/models/gif.dart';
+import 'package:flutter_social_keyboard/models/giphy_gif.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/models/sticker.dart';
 import 'package:flutter_social_keyboard/widgets/emoji_picker_widget.dart';
