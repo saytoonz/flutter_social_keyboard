@@ -30,7 +30,6 @@ class StickerDisplay extends StatefulWidget {
 
 class _StickerDisplayState extends State<StickerDisplay> {
   ScrollController _scrollController = ScrollController();
-  final _stickerPickerInternalUtils = StickerPickerInternalUtils();
 
   @override
   void initState() {
@@ -71,26 +70,25 @@ class _StickerDisplayState extends State<StickerDisplay> {
               mainAxisSpacing: widget.keyboardConfig.stickerVerticalSpacing,
             ),
             itemBuilder: (context, index) {
-              return InkWell(
+              return GestureDetector(
                 onTap: () {
+                  if (widget.keyboardConfig.showRecentsTab) {
+                    StickerPickerInternalUtils()
+                        .addStickerToRecentlyUsed(
+                            sticker: widget.stickerModel.stickers[index],
+                            config: widget.keyboardConfig)
+                        .then((newRecentEmoji) => {
+                              // we don't want to rebuild the widget if user is currently on
+                              // the RECENT tab, it will make emojis jump since sorting
+                              // is based on the use frequency
+                              widget.onUpdateRecent(
+                                  newRecentEmoji,
+                                  widget.stickerModel.stickers[index]
+                                          .category !=
+                                      "Recents")
+                            });
+                  }
                   if (widget.onStickerSelected != null) {
-                    if (widget.keyboardConfig.showRecentsTab) {
-                      _stickerPickerInternalUtils
-                          .addStickerToRecentlyUsed(
-                              sticker: widget.stickerModel.stickers[index],
-                              config: widget.keyboardConfig)
-                          .then((newRecentEmoji) => {
-                                // we don't want to rebuild the widget if user is currently on
-                                // the RECENT tab, it will make emojis jump since sorting
-                                // is based on the use frequency
-                                widget.onUpdateRecent(
-                                    newRecentEmoji,
-                                    widget.stickerModel.stickers[index]
-                                            .category !=
-                                        "Recents")
-                              });
-                    }
-
                     widget.onStickerSelected!(
                         widget.stickerModel.stickers[index]);
                   }
