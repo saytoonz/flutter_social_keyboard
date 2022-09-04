@@ -114,7 +114,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 },
                 onStickerSelected: (Sticker sticker) {
                   // Do something when sticker is tapped (optional)
-                  print(sticker);
+                  print(sticker.toJson());
                   setState(() {
                     selectedSticker = sticker;
                   });
@@ -130,6 +130,10 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                   gifVerticalSpacing: 5,
                   withSafeArea: true,
                   gifColumns: 3,
+                  //
+                  stickerColumns: 5,
+                  stickerHorizontalSpacing: 5,
+                  stickerVerticalSpacing: 5,
                   //
                   emojiColumns: 9,
                   emojiSizeMax: 32 * (Platform.isIOS ? 1.30 : 1.0),
