@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_social_keyboard/models/collection.dart';
-import 'package:flutter_social_keyboard/models/gif.dart';
+import 'package:flutter_social_keyboard/models/giphy_gif.dart';
 import 'package:flutter_social_keyboard/utils/languages.dart';
 import 'package:flutter_social_keyboard/utils/rating.dart';
 import 'package:http/http.dart';
