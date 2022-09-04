@@ -87,6 +87,7 @@ class _StickerPickerWidgetState extends State<StickerPickerWidget>
       List<String> assets = _allStickers
           .where((asset) => asset.contains("assets/stickers/${_tabs[i]}"))
           .toList();
+
       _stickerModels.add(
         StickerModel(
           title: _tabs[i],
