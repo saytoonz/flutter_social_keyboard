@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
+import 'package:flutter_social_keyboard/models/sticker.dart';
 import 'package:flutter_social_keyboard/models/sticker_model.dart';
 import 'package:flutter_social_keyboard/widgets/sticker_display.dart';
 
@@ -14,7 +15,7 @@ class StickerPickerWidget extends StatefulWidget {
     required this.scrollStream,
   }) : super(key: key);
 
-  final Function(String)? onStickerSelected;
+  final Function(Sticker)? onStickerSelected;
   final KeyboardConfig keyboardConfig;
   final StreamController<String> scrollStream;
 
