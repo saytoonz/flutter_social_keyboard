@@ -10,6 +10,9 @@ class KeyboardConfig {
     this.gifColumns = 3,
     this.gifVerticalSpacing = 5,
     this.gifHorizontalSpacing = 5,
+    this.stickerColumns = 4,
+    this.stickerHorizontalSpacing = 5,
+    this.stickerVerticalSpacing = 5,
     this.emojiColumns = 7,
     this.emojiSizeMax = 32.0,
     this.verticalSpacing = 0,
@@ -44,6 +47,10 @@ class KeyboardConfig {
   final int gifColumns;
   final double gifVerticalSpacing;
   final double gifHorizontalSpacing;
+
+  final int stickerColumns;
+  final double stickerVerticalSpacing;
+  final double stickerHorizontalSpacing;
   final bool withSafeArea;
 
   /// Number of emojis per row
