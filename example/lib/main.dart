@@ -114,7 +114,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 },
                 onStickerSelected: (Sticker sticker) {
                   // Do something when sticker is tapped (optional)
-                  print(sticker.toJson());
+                  // print(sticker.toJson());
                   setState(() {
                     selectedSticker = sticker;
                   });
