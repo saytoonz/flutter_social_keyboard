@@ -8,7 +8,6 @@ import 'package:flutter_social_keyboard/models/recent_sticker.dart';
 import 'package:flutter_social_keyboard/models/sticker.dart';
 import 'package:flutter_social_keyboard/models/category_sticker.dart';
 import 'package:flutter_social_keyboard/utils/sticker_picker_internal_utils.dart';
-import 'package:flutter_social_keyboard/widgets/sticker_picker_widget.dart';
 
 class StickerDisplay extends StatefulWidget {
   final CategorySticker stickerModel;
