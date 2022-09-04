@@ -76,11 +76,11 @@ class StickerPickerWidgetState extends State<StickerPickerWidget>
         .where((path) => path.startsWith('assets/stickers/'))
         .where(
           (path) =>
-              path.endsWith(".webp") ||
-              path.endsWith(".png") ||
-              path.endsWith(".jpg") ||
-              path.endsWith(".gif") ||
-              path.endsWith(".jpeg"),
+              (path.toLowerCase()).endsWith(".webp") ||
+              (path.toLowerCase()).endsWith(".png") ||
+              (path.toLowerCase()).endsWith(".jpg") ||
+              (path.toLowerCase()).endsWith(".gif") ||
+              (path.toLowerCase()).endsWith(".jpeg"),
         )
         .toList();
 
