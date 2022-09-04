@@ -20,7 +20,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   Emoji? selectedEmoji;
   GiphyGif? selectedGif;
-  String? selectedSticker;
+  Sticker? selectedSticker;
   late FlutterGifController controller;
 
   @override
@@ -79,9 +79,9 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                     height: 10,
                   ),
 
-                  (selectedSticker ?? "").isNotEmpty
+                  selectedSticker != null
                       ? Image.asset(
-                          selectedSticker ?? "",
+                          selectedSticker!.assetUrl,
                           height: 100,
                         )
                       : const Text(
@@ -112,11 +112,11 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                     selectedGif = gif;
                   });
                 },
-                onStickerSelected: (String assetUrl) {
+                onStickerSelected: (Sticker sticker) {
                   // Do something when sticker is tapped (optional)
-                  print(assetUrl);
+                  print(sticker);
                   setState(() {
-                    selectedSticker = assetUrl;
+                    selectedSticker = sticker;
                   });
                 },
                 onBackspacePressed: () {
