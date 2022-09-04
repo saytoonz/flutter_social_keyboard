@@ -4,7 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/models/sticker.dart';
-import 'package:flutter_social_keyboard/models/sticker_model.dart';
+import 'package:flutter_social_keyboard/models/stickers_model.dart';
+import 'package:flutter_social_keyboard/utils/sticker_picker_internal_utils.dart';
 import 'package:flutter_social_keyboard/widgets/sticker_display.dart';
 
 class StickerPickerWidget extends StatefulWidget {
@@ -32,7 +33,7 @@ class _StickerPickerWidgetState extends State<StickerPickerWidget>
   PageController? _pageController;
   TabController? _tabController;
   final List<String> _tabs = [''];
-  List<StickerModel> _stickerModels = [];
+  List<StickersModel> _stickerModels = [];
 
   bool _loaded = false;
   @override
@@ -83,18 +84,28 @@ class _StickerPickerWidgetState extends State<StickerPickerWidget>
     //Get stickers and group them based on tabs
     for (var i = 0; i < _tabs.length; i++) {
       if (i == 0) {
-        //TODO Get recents here
+        List<Sticker> recents =
+            await StickerPickerInternalUtils().getRecentStickers();
+        print(recents.length);
+        _stickerModels.add(
+          StickersModel(
+            tabTitle: "Recents",
+            stickers: recents,
+          ),
+        );
+      } else {
+        List<Sticker> stickers = _allStickers
+            .where((asset) => asset.contains("assets/stickers/${_tabs[i]}"))
+            .toList()
+            .map((e) => Sticker(assetUrl: e, category: _tabs[i]))
+            .toList();
+        _stickerModels.add(
+          StickersModel(
+            tabTitle: _tabs[i],
+            stickers: stickers,
+          ),
+        );
       }
-      List<String> assets = _allStickers
-          .where((asset) => asset.contains("assets/stickers/${_tabs[i]}"))
-          .toList();
-
-      _stickerModels.add(
-        StickerModel(
-          title: _tabs[i],
-          assetUrls: assets,
-        ),
-      );
     }
 
     _loaded = true;
@@ -152,8 +163,10 @@ class _StickerPickerWidgetState extends State<StickerPickerWidget>
                       );
                     },
                     itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return widget.keyboardConfig.noRecents;
+                      if (index == 0 && _stickerModels[0].stickers.isEmpty) {
+                        return Center(
+                          child: widget.keyboardConfig.noRecents,
+                        );
                       }
 
                       return StickerDisplay(
