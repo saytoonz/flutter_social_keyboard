@@ -8,7 +8,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_social_keyboard/models/collection.dart';
 import 'package:flutter_social_keyboard/models/giphy_gif.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
+import 'package:flutter_social_keyboard/models/recent_gif.dart';
 import 'package:flutter_social_keyboard/resources/client.dart';
+import 'package:flutter_social_keyboard/utils/gif_picker_internal_utils.dart';
 
 class GiphyDisplay extends StatefulWidget {
   final String searchKeyword;
@@ -86,7 +88,9 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
     try {
       if (widget.searchKeyword.isEmpty) {
         //Fetch recent
-        collection = null;
+        List<RecentGiphyGif> recents =
+            await GiphyGifPickerInternalUtils().getRecentStickers();
+        collection = GiphyCollection(data: recents.map((e) => e.gif).toList());
       } else if (widget.searchKeyword == 'trending') {
         //Trending
         collection = await client.trending(
@@ -124,7 +128,6 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
     try {
       if (widget.searchKeyword.isEmpty) {
         //Fetch recent
-        collection = null;
       } else if (widget.searchKeyword == 'trending') {
         //Trending
         collection = await client.trending(
@@ -157,23 +160,25 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
             child: CircularProgressIndicator.adaptive(),
           )
         : (_collection?.data ?? []).isEmpty
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("There was an error, try again!"),
-                  InkWell(
-                    onTap: () {
-                      _getGifs();
-                    },
-                    child: Text(
-                      "Retry",
-                      style: TextStyle(
-                        color: widget.keyboardConfig.iconColor,
-                      ),
-                    ),
+            ? widget.searchKeyword.isEmpty
+                ? Center(child: widget.keyboardConfig.noRecents)
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("There was an error, try again!"),
+                      InkWell(
+                        onTap: () {
+                          _getGifs();
+                        },
+                        child: Text(
+                          "Retry",
+                          style: TextStyle(
+                            color: widget.keyboardConfig.iconColor,
+                          ),
+                        ),
+                      )
+                    ],
                   )
-                ],
-              )
             : SingleChildScrollView(
                 controller: _scrollController,
                 child: Column(
@@ -192,9 +197,7 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
                           mainAxisSpacing:
                               widget.keyboardConfig.gifVerticalSpacing),
                       itemBuilder: (context, index) {
-                        // return  Image.network(
-                        //     _collection!.data![index]!.images!.previewGif!.url!);
-                        return InkWell(
+                        return GestureDetector(
                           onTap: () {
                             if (widget.onGifSelected != null) {
                               widget.onGifSelected!(_collection!.data![index]!);
