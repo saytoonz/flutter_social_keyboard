@@ -1,5 +1,6 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_social_keyboard/utils/languages.dart';
 
 /// KeyboardConfig for customizations
 class KeyboardConfig {
@@ -11,6 +12,7 @@ class KeyboardConfig {
     this.gifVerticalSpacing = 5,
     this.gifHorizontalSpacing = 5,
     this.stickerColumns = 4,
+    this.gifLang = GiphyLanguage.english,
     this.stickerHorizontalSpacing = 5,
     this.stickerVerticalSpacing = 5,
     this.emojiColumns = 7,
@@ -47,6 +49,7 @@ class KeyboardConfig {
   final int gifColumns;
   final double gifVerticalSpacing;
   final double gifHorizontalSpacing;
+  final String gifLang;
 
   final int stickerColumns;
   final double stickerVerticalSpacing;

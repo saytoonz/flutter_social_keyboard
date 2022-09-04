@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_social_keyboard/models/gif.dart';
+import 'package:flutter_social_keyboard/models/giphy_gif.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/widgets/giphy_display.dart';
 

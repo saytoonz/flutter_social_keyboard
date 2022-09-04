@@ -3,7 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
-import 'package:flutter_social_keyboard/models/sticker_model.dart';
+import 'package:flutter_social_keyboard/models/recent_sticker.dart';
+import 'package:flutter_social_keyboard/models/sticker.dart';
+import 'package:flutter_social_keyboard/models/category_sticker.dart';
+import 'package:flutter_social_keyboard/utils/sticker_picker_internal_utils.dart';
 import 'package:flutter_social_keyboard/widgets/sticker_display.dart';
 
 class StickerPickerWidget extends StatefulWidget {
@@ -14,15 +17,15 @@ class StickerPickerWidget extends StatefulWidget {
     required this.scrollStream,
   }) : super(key: key);
 
-  final Function(String)? onStickerSelected;
+  final Function(Sticker)? onStickerSelected;
   final KeyboardConfig keyboardConfig;
   final StreamController<String> scrollStream;
 
   @override
-  State<StickerPickerWidget> createState() => _StickerPickerWidgetState();
+  State<StickerPickerWidget> createState() => StickerPickerWidgetState();
 }
 
-class _StickerPickerWidgetState extends State<StickerPickerWidget>
+class StickerPickerWidgetState extends State<StickerPickerWidget>
     with SingleTickerProviderStateMixin {
   final int initCategory = 0;
   final double tabBarHeight = 46;
@@ -30,14 +33,31 @@ class _StickerPickerWidgetState extends State<StickerPickerWidget>
   List<String> _allStickers = [];
   PageController? _pageController;
   TabController? _tabController;
-  final List<String> _tabs = [''];
-  List<StickerModel> _stickerModels = [];
+  final List<String> _tabs = List.empty(growable: true); //[''];
+
+  final List<CategorySticker> _categorySticker = List.empty(growable: true);
+
+  List<RecentSticker> _recentSticker = List.empty(growable: true);
 
   bool _loaded = false;
+
+  void updateRecentSticker(List<RecentSticker> recentSticker,
+      {bool refresh = false}) {
+    _recentSticker = recentSticker;
+    _categorySticker[0] = _categorySticker[0]
+        .copyWith(stickers: _recentSticker.map((e) => e.sticker).toList());
+    if (mounted && refresh) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _listAssets();
+    if (widget.keyboardConfig.showRecentsTab) {
+      _tabs.add('');
+    }
 
     _pageController = PageController(initialPage: initCategory)
       ..addListener((() => widget.scrollStream.add('showNav')));
@@ -56,11 +76,11 @@ class _StickerPickerWidgetState extends State<StickerPickerWidget>
         .where((path) => path.startsWith('assets/stickers/'))
         .where(
           (path) =>
-              path.endsWith(".webp") ||
-              path.endsWith(".png") ||
-              path.endsWith(".jpg") ||
-              path.endsWith(".gif") ||
-              path.endsWith(".jpeg"),
+              (path.toLowerCase()).endsWith(".webp") ||
+              (path.toLowerCase()).endsWith(".png") ||
+              (path.toLowerCase()).endsWith(".jpg") ||
+              (path.toLowerCase()).endsWith(".gif") ||
+              (path.toLowerCase()).endsWith(".jpeg"),
         )
         .toList();
 
@@ -80,24 +100,7 @@ class _StickerPickerWidgetState extends State<StickerPickerWidget>
       ..addListener(() => widget.scrollStream.add('showNav'));
 
     //Get stickers and group them based on tabs
-    for (var i = 0; i < _tabs.length; i++) {
-      if (i == 0) {
-        //TODO Get recents here
-      }
-      List<String> assets = _allStickers
-          .where((asset) => asset.contains("assets/stickers/${_tabs[i]}"))
-          .toList();
-
-      _stickerModels.add(
-        StickerModel(
-          title: _tabs[i],
-          assetUrls: assets,
-        ),
-      );
-    }
-
-    _loaded = true;
-    if (mounted) setState(() {});
+    _updateStickers();
   }
 
   Widget _buildCategory(int index, String title) {
@@ -108,6 +111,36 @@ class _StickerPickerWidgetState extends State<StickerPickerWidget>
               title.toUpperCase(),
             ),
     );
+  }
+
+  // Initialize sticker data
+  Future<void> _updateStickers() async {
+    _categorySticker.clear();
+    for (var i = 0; i < _tabs.length; i++) {
+      if (i == 0 && widget.keyboardConfig.showRecentsTab) {
+        List<Sticker> recents =
+            (await StickerPickerInternalUtils().getRecentStickers())
+                .map((e) => e.sticker)
+                .toList();
+        _categorySticker.add(CategorySticker(
+          category: "Recents",
+          stickers: recents,
+        ));
+      } else {
+        List<Sticker> stickers = _allStickers
+            .where((asset) => asset.contains("assets/stickers/${_tabs[i]}"))
+            .toList()
+            .map((e) => Sticker(assetUrl: e, category: _tabs[i]))
+            .toList();
+        _categorySticker.add(CategorySticker(
+          category: _tabs[i],
+          stickers: stickers,
+        ));
+      }
+    }
+
+    _loaded = true;
+    if (mounted) setState(() {});
   }
 
   @override
@@ -151,16 +184,22 @@ class _StickerPickerWidgetState extends State<StickerPickerWidget>
                       );
                     },
                     itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return widget.keyboardConfig.noRecents;
+                      if (index == 0 && _categorySticker[0].stickers.isEmpty) {
+                        return Center(
+                          child: widget.keyboardConfig.noRecents,
+                        );
                       }
 
                       return StickerDisplay(
-                        stickerModel: _stickerModels[index],
-                        keyboardConfig: widget.keyboardConfig,
-                        onStickerSelected: widget.onStickerSelected,
-                        scrollStream: widget.scrollStream,
-                      );
+                          stickerModel: _categorySticker[index],
+                          keyboardConfig: widget.keyboardConfig,
+                          onStickerSelected: widget.onStickerSelected,
+                          scrollStream: widget.scrollStream,
+                          onUpdateRecent: (recentSticker, refresh) =>
+                              updateRecentSticker(
+                                recentSticker,
+                                refresh: refresh,
+                              ));
                     },
                   ),
                 ),

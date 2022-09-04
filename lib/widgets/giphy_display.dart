@@ -6,9 +6,11 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 
 import 'package:flutter_social_keyboard/models/collection.dart';
-import 'package:flutter_social_keyboard/models/gif.dart';
+import 'package:flutter_social_keyboard/models/giphy_gif.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
+import 'package:flutter_social_keyboard/models/recent_gif.dart';
 import 'package:flutter_social_keyboard/resources/client.dart';
+import 'package:flutter_social_keyboard/utils/giphy_gif_picker_internal_utils.dart';
 
 class GiphyDisplay extends StatefulWidget {
   final String searchKeyword;
@@ -39,6 +41,16 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
   bool _loadingMore = true;
 
   GiphyCollection? _collection;
+
+  void updateRecentGiphyGifs(List<RecentGiphyGif> recentGiphyGif,
+      {bool refresh = false}) {
+    _collection =
+        GiphyCollection(data: recentGiphyGif.map((e) => e.gif).toList());
+    if (mounted && refresh) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -86,7 +98,9 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
     try {
       if (widget.searchKeyword.isEmpty) {
         //Fetch recent
-        collection = null;
+        List<RecentGiphyGif> recents =
+            await GiphyGifPickerInternalUtils().getRecentGiphyGifs();
+        collection = GiphyCollection(data: recents.map((e) => e.gif).toList());
       } else if (widget.searchKeyword == 'trending') {
         //Trending
         collection = await client.trending(
@@ -99,6 +113,7 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
           widget.searchKeyword,
           offset: _offset,
           limit: _limit,
+          lang: widget.keyboardConfig.gifLang,
         );
       }
 
@@ -123,7 +138,6 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
     try {
       if (widget.searchKeyword.isEmpty) {
         //Fetch recent
-        collection = null;
       } else if (widget.searchKeyword == 'trending') {
         //Trending
         collection = await client.trending(
@@ -136,6 +150,7 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
           widget.searchKeyword,
           offset: _offset,
           limit: _limit,
+          lang: widget.keyboardConfig.gifLang,
         );
       }
       _collection!.data!.addAll(collection!.data!);
@@ -155,23 +170,25 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
             child: CircularProgressIndicator.adaptive(),
           )
         : (_collection?.data ?? []).isEmpty
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("There was an error, try again!"),
-                  InkWell(
-                    onTap: () {
-                      _getGifs();
-                    },
-                    child: Text(
-                      "Retry",
-                      style: TextStyle(
-                        color: widget.keyboardConfig.iconColor,
-                      ),
-                    ),
+            ? widget.searchKeyword.isEmpty
+                ? Center(child: widget.keyboardConfig.noRecents)
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("There was an error, try again!"),
+                      InkWell(
+                        onTap: () {
+                          _getGifs();
+                        },
+                        child: Text(
+                          "Retry",
+                          style: TextStyle(
+                            color: widget.keyboardConfig.iconColor,
+                          ),
+                        ),
+                      )
+                    ],
                   )
-                ],
-              )
             : SingleChildScrollView(
                 controller: _scrollController,
                 child: Column(
@@ -190,10 +207,24 @@ class _GiphyDisplayState extends State<GiphyDisplay> {
                           mainAxisSpacing:
                               widget.keyboardConfig.gifVerticalSpacing),
                       itemBuilder: (context, index) {
-                        // return  Image.network(
-                        //     _collection!.data![index]!.images!.previewGif!.url!);
-                        return InkWell(
+                        return GestureDetector(
                           onTap: () {
+                            if (widget.keyboardConfig.showRecentsTab) {
+                              GiphyGifPickerInternalUtils()
+                                  .addGiphyGifToRecentlyUsed(
+                                      giphyGif: _collection!.data![index]!,
+                                      config: widget.keyboardConfig)
+                                  .then((newRecentEmoji) => {
+                                        // we don't want to rebuild the widget if user is currently on
+                                        // the RECENT tab, it will make emojis jump since sorting
+                                        // is based on the use frequency
+                                        updateRecentGiphyGifs(
+                                          newRecentEmoji,
+                                          refresh: widget.searchKeyword.isEmpty,
+                                        )
+                                      });
+                            }
+
                             if (widget.onGifSelected != null) {
                               widget.onGifSelected!(_collection!.data![index]!);
                             }
