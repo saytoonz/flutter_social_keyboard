@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_social_keyboard/models/Sticker.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
+import 'package:flutter_social_keyboard/models/sticker.dart';
 import 'package:flutter_social_keyboard/models/sticker_model.dart';
 
 class StickerDisplay extends StatefulWidget {
