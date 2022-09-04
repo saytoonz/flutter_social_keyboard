@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_social_keyboard/models/gif.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
+import 'package:flutter_social_keyboard/models/sticker.dart';
 import 'package:flutter_social_keyboard/widgets/emoji_picker_widget.dart';
 import 'package:flutter_social_keyboard/widgets/gif_picker_widget.dart';
 import 'package:flutter_social_keyboard/widgets/sticker_picker_widget.dart';
@@ -16,7 +17,7 @@ class FlutterSocialKeyboard extends StatefulWidget {
   final Function(Category, Emoji)? onEmojiSelected;
   final Function()? onBackspacePressed;
   final Function(GiphyGif)? onGifSelected;
-  final Function(String)? onStickerSelected;
+  final Function(Sticker)? onStickerSelected;
   const FlutterSocialKeyboard({
     Key? key,
     this.keyboardConfig = const KeyboardConfig(),
