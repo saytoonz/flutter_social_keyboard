@@ -4,20 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
+import 'package:flutter_social_keyboard/models/recent_sticker.dart';
 import 'package:flutter_social_keyboard/models/sticker.dart';
-import 'package:flutter_social_keyboard/models/stickers_model.dart';
+import 'package:flutter_social_keyboard/models/category_sticker.dart';
+import 'package:flutter_social_keyboard/utils/sticker_picker_internal_utils.dart';
+import 'package:flutter_social_keyboard/widgets/sticker_picker_widget.dart';
 
 class StickerDisplay extends StatefulWidget {
-  final StickersModel stickerModel;
+  final CategorySticker stickerModel;
   final KeyboardConfig keyboardConfig;
   final Function(Sticker)? onStickerSelected;
   final StreamController<String> scrollStream;
+  final Function(List<RecentSticker>, bool) onUpdateRecent;
   const StickerDisplay({
     Key? key,
     required this.stickerModel,
     required this.keyboardConfig,
     this.onStickerSelected,
     required this.scrollStream,
+    required this.onUpdateRecent,
   }) : super(key: key);
 
   @override
@@ -26,6 +31,7 @@ class StickerDisplay extends StatefulWidget {
 
 class _StickerDisplayState extends State<StickerDisplay> {
   ScrollController _scrollController = ScrollController();
+  final _stickerPickerInternalUtils = StickerPickerInternalUtils();
 
   @override
   void initState() {
@@ -69,6 +75,23 @@ class _StickerDisplayState extends State<StickerDisplay> {
               return InkWell(
                 onTap: () {
                   if (widget.onStickerSelected != null) {
+                    if (widget.keyboardConfig.showRecentsTab) {
+                      _stickerPickerInternalUtils
+                          .addStickerToRecentlyUsed(
+                              sticker: widget.stickerModel.stickers[index],
+                              config: widget.keyboardConfig)
+                          .then((newRecentEmoji) => {
+                                // we don't want to rebuild the widget if user is currently on
+                                // the RECENT tab, it will make emojis jump since sorting
+                                // is based on the use frequency
+                                widget.onUpdateRecent(
+                                    newRecentEmoji,
+                                    widget.stickerModel.stickers[index]
+                                            .category !=
+                                        "Recents")
+                              });
+                    }
+
                     widget.onStickerSelected!(
                         widget.stickerModel.stickers[index]);
                   }
