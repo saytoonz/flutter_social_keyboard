@@ -23,31 +23,6 @@ class StickerPickerUtils {
     return StickerPickerInternalUtils().getRecentStickers();
   }
 
-  /// Search for related emoticons based on keywords
-  // Future<List<Emoji>> searchEmoji(String keyword, List<CategoryEmoji> data,
-  //     {bool checkPlatformCompatibility = true}) async {
-  //   if (keyword.isEmpty) return [];
-
-  //   if (_allAvailableEmojiEntities.isEmpty) {
-  //     final emojiPickerInternalUtils = EmojiPickerInternalUtils();
-
-  //     final availableCategoryEmoji = checkPlatformCompatibility
-  //         ? await emojiPickerInternalUtils.filterUnsupported(data)
-  //         : data;
-
-  //     // Set all the emoji entities
-  //     for (var emojis in availableCategoryEmoji) {
-  //       _allAvailableEmojiEntities.addAll(emojis.emoji);
-  //     }
-  //   }
-
-  //   return _allAvailableEmojiEntities
-  //       .where(
-  //         (emoji) => emoji.name.toLowerCase().contains(keyword.toLowerCase()),
-  //       )
-  //       .toList();
-  // }
-
   /// Add an emoji to recently used list or increase its counter
   Future addStickerToRecentlyUsed({
     required GlobalKey<StickerPickerWidgetState> key,
