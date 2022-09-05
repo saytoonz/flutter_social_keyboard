@@ -108,14 +108,17 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 style: const TextStyle(
                   height: 1.0,
                   fontSize: 14,
-                  color: Colors.grey,
+                  color: Colors.black,
                 ),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   alignLabelWithHint: true,
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.zero,
                   hintText: "Search Giphy",
-                  prefixIcon: Icon(
+                  hintStyle: TextStyle(
+                    color: Colors.grey.shade700,
+                  ),
+                  prefixIcon: const Icon(
                     Icons.search,
                     size: 17,
                     color: Colors.grey,
