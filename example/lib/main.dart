@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -26,44 +25,106 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   Emoji? selectedEmoji;
   GiphyGif? selectedGif;
   Sticker? selectedSticker;
-
-  final double _initFabHeight = 120.0;
-  double _fabHeight = 0;
   double _panelHeightOpen = 0;
-  double _panelHeightClosed = 95.0;
 
+  final PanelController _panelController = PanelController();
+
+  FocusNode _focusNode = FocusNode();
   @override
   void initState() {
     super.initState();
-    _fabHeight = _initFabHeight;
+
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       // controller
+      _panelController.hide();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _panelHeightOpen = MediaQuery.of(context).size.height * .80;
+    _panelHeightOpen = MediaQuery.of(context).size.height * .85;
 
     return Material(
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
           SlidingUpPanel(
+            controller: _panelController,
             maxHeight: _panelHeightOpen,
-            minHeight: _panelHeightClosed,
-            parallaxEnabled: true,
+            minHeight: 70,
             parallaxOffset: 0,
             body: _body(),
-            panelBuilder: (sc) => Container(),
+            panelBuilder: (sc) => _panel(sc),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(18.0),
               topRight: Radius.circular(18.0),
             ),
+            onPanelSlide: (double pos) {
+              if (_panelController.isPanelClosed) {
+                _panelController.hide();
+              }
+            },
           ),
         ],
       ),
     );
+  }
+
+  Widget _panel(ScrollController sc) {
+    return MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 12.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 30,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: 30,
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextField(
+                focusNode: _focusNode,
+                style: const TextStyle(
+                  height: 1.0,
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+                decoration: const InputDecoration(
+                  alignLabelWithHint: true,
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
+                  hintText: "Search Giphy",
+                  prefixIcon: Icon(
+                    Icons.search,
+                    size: 17,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ));
   }
 
   Widget _body() {
@@ -153,6 +214,12 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               onBackspacePressed: () {
                 // Do something when the user taps the backspace button (optional)
                 // print("Backspace button pres ");
+              },
+              onSearchButtonPressed: () {
+                _panelController
+                    .show()
+                    .then((value) => _panelController.open());
+                _focusNode.requestFocus();
               },
               keyboardConfig: KeyboardConfig(
                 useEmoji: true,
