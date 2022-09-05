@@ -16,6 +16,7 @@ class FlutterSocialKeyboard extends StatefulWidget {
   final KeyboardConfig keyboardConfig;
   final Function(Category, Emoji)? onEmojiSelected;
   final Function()? onBackspacePressed;
+  final Function()? onSearchButtonPressed;
   final Function(GiphyGif)? onGifSelected;
   final Function(Sticker)? onStickerSelected;
   const FlutterSocialKeyboard({
@@ -25,6 +26,7 @@ class FlutterSocialKeyboard extends StatefulWidget {
     this.onGifSelected,
     this.onBackspacePressed,
     this.onStickerSelected,
+    this.onSearchButtonPressed,
   }) : super(key: key);
 
   @override
@@ -37,9 +39,46 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
   int _currentIndex = 0;
   bool _showBottomNav = true;
 
+  final List<Widget> _showingWidgets = List.empty(growable: true);
+  final List<String> _showingTabItems = List.empty(growable: true);
   @override
   void initState() {
     super.initState();
+
+    if (widget.keyboardConfig.useEmoji) {
+      _showingWidgets.add(
+          //Emoji
+          EmojiPickerWidget(
+        keyboardConfig: widget.keyboardConfig,
+        onBackspacePressed: widget.onBackspacePressed,
+        onEmojiSelected: widget.onEmojiSelected,
+      ));
+      _showingTabItems.add("icons8-emoji-96.png");
+    }
+
+    if (widget.keyboardConfig.useGif) {
+      _showingWidgets.add(
+        //Gif
+        GifPickerWidget(
+          keyboardConfig: widget.keyboardConfig,
+          onGifSelected: widget.onGifSelected,
+          scrollStream: scrollStream,
+        ),
+      );
+      _showingTabItems.add("icons8-gif-96.png");
+    }
+
+    if (widget.keyboardConfig.useSticker) {
+      _showingWidgets.add(
+        //Sticker
+        StickerPickerWidget(
+          keyboardConfig: widget.keyboardConfig,
+          onStickerSelected: widget.onStickerSelected,
+          scrollStream: scrollStream,
+        ),
+      );
+      _showingTabItems.add("icons8-sticker-100.png");
+    }
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       scrollStream.stream.listen((event) {
@@ -72,25 +111,7 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
           Expanded(
             child: IndexedStack(
               index: _currentIndex,
-              children: [
-                //Emoji
-                EmojiPickerWidget(
-                  keyboardConfig: widget.keyboardConfig,
-                  onBackspacePressed: widget.onBackspacePressed,
-                  onEmojiSelected: widget.onEmojiSelected,
-                ),
-                //Gif
-                GifPickerWidget(
-                  keyboardConfig: widget.keyboardConfig,
-                  onGifSelected: widget.onGifSelected,
-                  scrollStream: scrollStream,
-                ),
-                StickerPickerWidget(
-                  keyboardConfig: widget.keyboardConfig,
-                  onStickerSelected: widget.onStickerSelected,
-                  scrollStream: scrollStream,
-                ),
-              ],
+              children: _showingWidgets,
             ),
           ),
           //Bottom navigation
@@ -116,38 +137,45 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.search,
+                    Opacity(
+                      opacity: widget.keyboardConfig.showSearchButton ? 1 : 0,
+                      child: IconButton(
+                        onPressed: () {
+                          if (!widget.keyboardConfig.showSearchButton) return;
+                          //
+                          widget.onSearchButtonPressed!();
+                        },
+                        icon: const Icon(
+                          Icons.search,
+                        ),
                       ),
                     ),
                     const Spacer(),
-                    _getImgIcon(
-                      image: "icons8-emoji-96.png",
-                      index: 0,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    _getImgIcon(
-                      image: "icons8-gif-96.png",
-                      size: 26,
-                      index: 1,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    _getImgIcon(image: "icons8-sticker-100.png", index: 2),
+                    ..._showingTabItems
+                        .map((e) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 7.5),
+                              child: _getImgIcon(
+                                image: e,
+                                index: _showingTabItems.indexOf(e),
+                                size: e.contains("gif") ? 26 : 22,
+                              ),
+                            ))
+                        .toList(),
                     const Spacer(),
                     Opacity(
-                      opacity: _currentIndex == 0 ? 1 : 0,
+                      opacity: widget.keyboardConfig.showBackSpace &&
+                              _showingTabItems[_currentIndex].contains("emoji")
+                          ? 1
+                          : 0,
                       child: IconButton(
                         onPressed: () {
-                          if (_currentIndex != 0 ||
-                              widget.onBackspacePressed == null) return;
+                          if (!_showingTabItems[_currentIndex]
+                                  .contains("emoji") ||
+                              !widget.keyboardConfig.showBackSpace &&
+                                  widget.onBackspacePressed == null) return;
                           widget.onBackspacePressed!();
                         },
                         icon: const Icon(

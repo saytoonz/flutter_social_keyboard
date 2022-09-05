@@ -124,6 +124,10 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                   // print("Backspace button pres ");
                 },
                 keyboardConfig: KeyboardConfig(
+                  useEmoji: true,
+                  useGif: true,
+                  useSticker: true,
+
                   giphyAPIKey: "vkOdSI3QLuAopjBKdwzeLC0mTCRJXIQM",
                   gifTabs: ["Hey", "One", 'Haha', 'Sad', 'Love', 'Reaction'],
                   gifHorizontalSpacing: 5,
@@ -166,6 +170,8 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                   tabIndicatorAnimDuration: kTabScrollDuration,
                   categoryIcons: const CategoryIcons(),
                   buttonMode: ButtonMode.CUPERTINO,
+                  showBackSpace: true,
+                  showSearchButton: true,
                 ),
               ),
             ),

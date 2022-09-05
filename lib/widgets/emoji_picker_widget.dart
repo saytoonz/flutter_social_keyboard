@@ -22,9 +22,7 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
   Widget build(BuildContext context) {
     return EmojiPicker(
       onEmojiSelected: widget.onEmojiSelected,
-      onBackspacePressed: widget.onBackspacePressed,
-      // textEditingController:
-      //     textEditionController, // pass here the same [TextEditingController] that is connected to your input field, usually a [TextFormField]
+      onBackspacePressed: null,
       config: Config(
         columns: widget.keyboardConfig.emojiColumns,
         emojiSizeMax: widget.keyboardConfig.emojiSizeMax,
