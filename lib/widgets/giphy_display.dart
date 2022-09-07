@@ -26,10 +26,10 @@ class GiphyDisplay extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<GiphyDisplay> createState() => _GiphyDisplayState();
+  State<GiphyDisplay> createState() => GiphyDisplayState();
 }
 
-class _GiphyDisplayState extends State<GiphyDisplay> {
+class GiphyDisplayState extends State<GiphyDisplay> {
   ScrollController _scrollController = ScrollController();
 
   late GiphyClient client =

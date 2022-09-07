@@ -16,14 +16,13 @@ class StickerPickerUtils {
 
   static final StickerPickerUtils _singleton = StickerPickerUtils._internal();
   // final List<Sticker> _allAvailableStickerEntities = [];
-  // final _emojiRegExp = RegExp(r'(\p{So})', unicode: true);
 
   /// Returns list of recently used stickers from cache
   Future<List<RecentSticker>> getRecentStickers() async {
     return StickerPickerInternalUtils().getRecentStickers();
   }
 
-  /// Add an emoji to recently used list or increase its counter
+  /// Add a sticker to recently used list or increase its counter
   Future addStickerToRecentlyUsed({
     required GlobalKey<StickerPickerWidgetState> key,
     required Sticker sticker,

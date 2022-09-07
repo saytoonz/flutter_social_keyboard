@@ -6,6 +6,9 @@ import 'package:flutter_social_keyboard/utils/languages.dart';
 class KeyboardConfig {
   /// Constructor
   const KeyboardConfig({
+    this.useEmoji = true,
+    this.useGif = true,
+    this.useSticker = true,
     this.giphyAPIKey,
     this.gifTabs = const ['Haha', 'Sad', 'Love', 'Reaction'],
     this.gifColumns = 3,
@@ -32,7 +35,7 @@ class KeyboardConfig {
     this.enableSkinTones = true,
     this.showRecentsTab = true,
     this.recentsLimit = 28,
-    this.replaceEmojiOnLimitExceed = false,
+    this.replaceRecentOnLimitExceed = false,
     this.noRecents = const Text(
       'No Recents',
       style: TextStyle(fontSize: 20, color: Colors.black26),
@@ -42,7 +45,13 @@ class KeyboardConfig {
     this.categoryIcons = const CategoryIcons(),
     this.buttonMode = ButtonMode.MATERIAL,
     this.withSafeArea = true,
+    this.showBackSpace = true,
+    this.showSearchButton = true,
   });
+
+  final bool useEmoji;
+  final bool useGif;
+  final bool useSticker;
 
   final String? giphyAPIKey;
   final List<String> gifTabs;
@@ -55,6 +64,9 @@ class KeyboardConfig {
   final double stickerVerticalSpacing;
   final double stickerHorizontalSpacing;
   final bool withSafeArea;
+
+  final bool showSearchButton;
+  final bool showBackSpace;
 
   /// Number of emojis per row
   final int emojiColumns;
@@ -121,6 +133,6 @@ class KeyboardConfig {
   /// The padding of GridView, default is [EdgeInsets.zero]
   final EdgeInsets gridPadding;
 
-  /// Replace latest emoji on recents list on limit exceed
-  final bool replaceEmojiOnLimitExceed;
+  /// Replace latest emoji/gif/sticker on recents list on limit exceed
+  final bool replaceRecentOnLimitExceed;
 }

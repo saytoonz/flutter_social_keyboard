@@ -24,14 +24,14 @@ class GiphyGifPickerInternalUtils {
       {required GiphyGif giphyGif,
       KeyboardConfig config = const KeyboardConfig()}) async {
     var recentGiphyGif = await getRecentGiphyGifs();
-    var recentEmojiIndex =
+    var recentGifIndex =
         recentGiphyGif.indexWhere((element) => element.gif.url == giphyGif.url);
-    if (recentEmojiIndex != -1) {
+    if (recentGifIndex != -1) {
       // Already exist in recent list
       // Just update counter
-      recentGiphyGif[recentEmojiIndex].counter++;
+      recentGiphyGif[recentGifIndex].counter++;
     } else if (recentGiphyGif.length == config.recentsLimit &&
-        config.replaceEmojiOnLimitExceed) {
+        config.replaceRecentOnLimitExceed) {
       // Replace latest gif with the fresh one
       recentGiphyGif[recentGiphyGif.length - 1] = RecentGiphyGif(giphyGif, 1);
     } else {
