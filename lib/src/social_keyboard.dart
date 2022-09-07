@@ -6,7 +6,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_social_keyboard/models/giphy_gif.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/models/sticker.dart';
+import 'package:flutter_social_keyboard/utils/giphy_gif_picker_utils.dart';
+import 'package:flutter_social_keyboard/utils/sticker_picker_utils.dart';
 import 'package:flutter_social_keyboard/widgets/emoji_picker_widget.dart';
+import 'package:flutter_social_keyboard/widgets/emoji_search.dart';
 import 'package:flutter_social_keyboard/widgets/gif_picker_widget.dart';
 import 'package:flutter_social_keyboard/widgets/sticker_picker_widget.dart';
 
@@ -16,7 +19,7 @@ class FlutterSocialKeyboard extends StatefulWidget {
   final KeyboardConfig keyboardConfig;
   final Function(Category, Emoji)? onEmojiSelected;
   final Function()? onBackspacePressed;
-  final Function()? onSearchButtonPressed;
+  final Function(String, List<dynamic>)? onSearchButtonPressed;
   final Function(GiphyGif)? onGifSelected;
   final Function(Sticker)? onStickerSelected;
   const FlutterSocialKeyboard({
@@ -41,6 +44,10 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
 
   final List<Widget> _showingWidgets = List.empty(growable: true);
   final List<String> _showingTabItems = List.empty(growable: true);
+
+  final List<Emoji> _recentEmoji = List.empty(growable: true);
+
+  bool _isSearching = false;
   @override
   void initState() {
     super.initState();
@@ -53,7 +60,7 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
         onBackspacePressed: widget.onBackspacePressed,
         onEmojiSelected: widget.onEmojiSelected,
       ));
-      _showingTabItems.add("icons8-emoji-96.png");
+      _showingTabItems.add("emoji");
     }
 
     if (widget.keyboardConfig.useGif) {
@@ -65,7 +72,7 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
           scrollStream: scrollStream,
         ),
       );
-      _showingTabItems.add("icons8-gif-96.png");
+      _showingTabItems.add("gif");
     }
 
     if (widget.keyboardConfig.useSticker) {
@@ -77,10 +84,10 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
           scrollStream: scrollStream,
         ),
       );
-      _showingTabItems.add("icons8-sticker-100.png");
+      _showingTabItems.add("sticker");
     }
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
       scrollStream.stream.listen((event) {
         if (event == "hideNav") {
           if (_showBottomNav) {
@@ -106,90 +113,133 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
       top: widget.keyboardConfig.withSafeArea,
       left: widget.keyboardConfig.withSafeArea,
       right: widget.keyboardConfig.withSafeArea,
-      child: Column(
-        children: [
-          Expanded(
-            child: IndexedStack(
-              index: _currentIndex,
-              children: _showingWidgets,
-            ),
-          ),
-          //Bottom navigation
-          Visibility(
-            visible: _showBottomNav,
-            child: Container(
-              height: 50,
-              padding: EdgeInsets.zero,
-              decoration: BoxDecoration(
-                color: widget.keyboardConfig.bgColor,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color.fromRGBO(43, 52, 69, .1),
-                    offset: Offset(0, -5),
-                    spreadRadius: 10,
-                    blurRadius: 200,
+      child: _showingTabItems[_currentIndex].contains("emoji") && _isSearching
+          ? EmojiSearch(
+              emojiSize: 24,
+              recents: _recentEmoji,
+              keyboardConfig: widget.keyboardConfig,
+              onEmojiSelected: (Emoji emoji) {
+                widget.onEmojiSelected!(Category.RECENT, emoji);
+              },
+              onCloseSearch: () {
+                setState(() {
+                  _isSearching = false;
+                });
+              },
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: IndexedStack(
+                    index: _currentIndex,
+                    children: _showingWidgets,
                   ),
-                ],
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Opacity(
-                      opacity: widget.keyboardConfig.showSearchButton ? 1 : 0,
-                      child: IconButton(
-                        onPressed: () {
-                          if (!widget.keyboardConfig.showSearchButton) return;
-                          //
-                          widget.onSearchButtonPressed!();
-                        },
-                        icon: const Icon(
-                          Icons.search,
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    ..._showingTabItems
-                        .map((e) => Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 7.5),
-                              child: _getImgIcon(
-                                image: e,
-                                index: _showingTabItems.indexOf(e),
-                                size: e.contains("gif") ? 26 : 22,
-                              ),
-                            ))
-                        .toList(),
-                    const Spacer(),
-                    Opacity(
-                      opacity: widget.keyboardConfig.showBackSpace &&
-                              _showingTabItems[_currentIndex].contains("emoji")
-                          ? 1
-                          : 0,
-                      child: IconButton(
-                        onPressed: () {
-                          if (!_showingTabItems[_currentIndex]
-                                  .contains("emoji") ||
-                              !widget.keyboardConfig.showBackSpace &&
-                                  widget.onBackspacePressed == null) return;
-                          widget.onBackspacePressed!();
-                        },
-                        icon: const Icon(
-                          Icons.backspace_outlined,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
-              ),
+                //Bottom navigation
+                Visibility(
+                  visible: _showBottomNav,
+                  child: Container(
+                    height: 50,
+                    padding: EdgeInsets.zero,
+                    decoration: BoxDecoration(
+                      color: widget.keyboardConfig.bgColor,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromRGBO(43, 52, 69, .1),
+                          offset: Offset(0, -5),
+                          spreadRadius: 10,
+                          blurRadius: 200,
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Opacity(
+                            opacity:
+                                widget.keyboardConfig.showSearchButton ? 1 : 0,
+                            child: IconButton(
+                              onPressed: () async {
+                                if (!widget.keyboardConfig.showSearchButton)
+                                  return;
+
+                                setState(() {
+                                  _isSearching = true;
+                                });
+
+                                List<dynamic> recents;
+                                String tab = _showingTabItems[_currentIndex];
+
+                                if (tab.contains('emoji')) {
+                                  _recentEmoji.clear();
+                                  _recentEmoji.addAll((await EmojiPickerUtils()
+                                          .getRecentEmojis())
+                                      .map((e) => e.emoji)
+                                      .toList());
+                                } else if (tab.contains('sticker')) {
+                                  recents = recents =
+                                      (await StickerPickerUtils()
+                                              .getRecentStickers())
+                                          .map((e) => e.sticker)
+                                          .toList();
+                                } else {
+                                  recents = recents =
+                                      (await GiphyGifPickerUtils()
+                                              .getRecentGiphyGif())
+                                          .map((e) => e.gif)
+                                          .toList();
+                                }
+                              },
+                              icon: const Icon(
+                                Icons.search,
+                              ),
+                            ),
+                          ),
+                          const Spacer(),
+                          ..._showingTabItems
+                              .map((e) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 7.5),
+                                    child: _getImgIcon(
+                                      image: e,
+                                      index: _showingTabItems.indexOf(e),
+                                      size: e.contains("gif") ? 26 : 22,
+                                    ),
+                                  ))
+                              .toList(),
+                          const Spacer(),
+                          Opacity(
+                            opacity: widget.keyboardConfig.showBackSpace &&
+                                    _showingTabItems[_currentIndex]
+                                        .contains("emoji")
+                                ? 1
+                                : 0,
+                            child: IconButton(
+                              onPressed: () {
+                                if (!_showingTabItems[_currentIndex]
+                                        .contains("emoji") ||
+                                    !widget.keyboardConfig.showBackSpace &&
+                                        widget.onBackspacePressed == null)
+                                  return;
+                                widget.onBackspacePressed!();
+                              },
+                              icon: const Icon(
+                                Icons.backspace_outlined,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -205,7 +255,7 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
         });
       },
       child: Image.asset(
-        "icons/$image",
+        "icons/$image.png",
         package: 'flutter_social_keyboard',
         width: size,
         height: size,

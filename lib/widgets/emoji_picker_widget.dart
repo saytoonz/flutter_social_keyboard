@@ -42,7 +42,7 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
         showRecentsTab: widget.keyboardConfig.showRecentsTab,
         recentsLimit: widget.keyboardConfig.recentsLimit,
         replaceEmojiOnLimitExceed:
-            widget.keyboardConfig.replaceEmojiOnLimitExceed,
+            widget.keyboardConfig.replaceRecentOnLimitExceed,
         noRecents: widget.keyboardConfig.noRecents,
         tabIndicatorAnimDuration:
             widget.keyboardConfig.tabIndicatorAnimDuration,

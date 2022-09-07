@@ -7,3 +7,4 @@ export 'package:flutter_social_keyboard/models/giphy_gif.dart';
 export 'package:flutter_social_keyboard/models/sticker.dart';
 export 'package:flutter_social_keyboard/utils/languages.dart';
 export 'package:flutter_social_keyboard/utils/sticker_picker_utils.dart';
+export 'package:flutter_social_keyboard/utils/giphy_gif_picker_utils.dart';

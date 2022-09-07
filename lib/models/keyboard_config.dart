@@ -35,7 +35,7 @@ class KeyboardConfig {
     this.enableSkinTones = true,
     this.showRecentsTab = true,
     this.recentsLimit = 28,
-    this.replaceEmojiOnLimitExceed = false,
+    this.replaceRecentOnLimitExceed = false,
     this.noRecents = const Text(
       'No Recents',
       style: TextStyle(fontSize: 20, color: Colors.black26),
@@ -133,6 +133,6 @@ class KeyboardConfig {
   /// The padding of GridView, default is [EdgeInsets.zero]
   final EdgeInsets gridPadding;
 
-  /// Replace latest emoji on recents list on limit exceed
-  final bool replaceEmojiOnLimitExceed;
+  /// Replace latest emoji/gif/sticker on recents list on limit exceed
+  final bool replaceRecentOnLimitExceed;
 }

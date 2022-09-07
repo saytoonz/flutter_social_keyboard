@@ -23,14 +23,14 @@ class StickerPickerInternalUtils {
       {required Sticker sticker,
       KeyboardConfig config = const KeyboardConfig()}) async {
     var recentSticker = await getRecentStickers();
-    var recentEmojiIndex = recentSticker
+    var recentStickerIndex = recentSticker
         .indexWhere((element) => element.sticker.assetUrl == sticker.assetUrl);
-    if (recentEmojiIndex != -1) {
+    if (recentStickerIndex != -1) {
       // Already exist in recent list
       // Just update counter
-      recentSticker[recentEmojiIndex].counter++;
+      recentSticker[recentStickerIndex].counter++;
     } else if (recentSticker.length == config.recentsLimit &&
-        config.replaceEmojiOnLimitExceed) {
+        config.replaceRecentOnLimitExceed) {
       // Replace latest sticker with the fresh one
       recentSticker[recentSticker.length - 1] = RecentSticker(sticker, 1);
     } else {

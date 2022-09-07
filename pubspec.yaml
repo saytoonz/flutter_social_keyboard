@@ -4,7 +4,7 @@ version: 0.0.1
 homepage: https://github.com/saytoonz/flutter_social_keyboard
 
 environment:
-  sdk: '>=2.19.0-127.0.dev <3.0.0'
+  sdk: '>=2.18.0 <3.0.0'
   flutter: ">=2.5.0"
 
 dependencies:
@@ -27,6 +27,6 @@ flutter:
   #     #   pluginClass: somePluginClass
   
   assets:
-    - packages/flutter_social_keyboard/icons/icons8-emoji-96.png
-    - packages/flutter_social_keyboard/icons/icons8-gif-96.png
-    - packages/flutter_social_keyboard/icons/icons8-sticker-100.png
+    - packages/flutter_social_keyboard/icons/emoji.png
+    - packages/flutter_social_keyboard/icons/gif.png
+    - packages/flutter_social_keyboard/icons/sticker.png
