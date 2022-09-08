@@ -11,6 +11,7 @@ import 'package:flutter_social_keyboard/utils/sticker_picker_utils.dart';
 import 'package:flutter_social_keyboard/widgets/emoji_picker_widget.dart';
 import 'package:flutter_social_keyboard/widgets/emoji_search.dart';
 import 'package:flutter_social_keyboard/widgets/gif_picker_widget.dart';
+import 'package:flutter_social_keyboard/widgets/giphy_gif_search.dart';
 import 'package:flutter_social_keyboard/widgets/sticker_picker_widget.dart';
 
 //Bottom bar height, bg-color, icon-color, active-icon-color
@@ -46,6 +47,8 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
   final List<String> _showingTabItems = List.empty(growable: true);
 
   final List<Emoji> _recentEmoji = List.empty(growable: true);
+  final List<GiphyGif> _recentGif = List.empty(growable: true);
+  final List<Sticker> _recentSticker = List.empty(growable: true);
 
   bool _isSearching = false;
   @override
@@ -113,20 +116,33 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
       top: widget.keyboardConfig.withSafeArea,
       left: widget.keyboardConfig.withSafeArea,
       right: widget.keyboardConfig.withSafeArea,
-      child: _showingTabItems[_currentIndex].contains("emoji") && _isSearching
-          ? EmojiSearch(
-              emojiSize: 24,
-              recents: _recentEmoji,
-              keyboardConfig: widget.keyboardConfig,
-              onEmojiSelected: (Emoji emoji) {
-                widget.onEmojiSelected!(Category.RECENT, emoji);
-              },
-              onCloseSearch: () {
-                setState(() {
-                  _isSearching = false;
-                });
-              },
-            )
+      child: _isSearching
+          ? _showingTabItems[_currentIndex].contains("emoji")
+              ? EmojiSearch(
+                  emojiSize: 24,
+                  recents: _recentEmoji,
+                  keyboardConfig: widget.keyboardConfig,
+                  onEmojiSelected: (Emoji emoji) {
+                    widget.onEmojiSelected!(Category.RECENT, emoji);
+                  },
+                  onCloseSearch: () {
+                    setState(() {
+                      _isSearching = false;
+                    });
+                  },
+                )
+              : GiphyGifSearch(
+                  recents: _recentGif,
+                  keyboardConfig: widget.keyboardConfig,
+                  onGifSelected: (GiphyGif giphyGif) {
+                    widget.onGifSelected!(giphyGif);
+                  },
+                  onCloseSearch: () {
+                    setState(() {
+                      _isSearching = false;
+                    });
+                  },
+                )
           : Column(
               children: [
                 Expanded(
@@ -165,16 +181,14 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
                                 widget.keyboardConfig.showSearchButton ? 1 : 0,
                             child: IconButton(
                               onPressed: () async {
-                                if (!widget.keyboardConfig.showSearchButton)
+                                if (!widget.keyboardConfig.showSearchButton) {
                                   return;
+                                }
 
-                                setState(() {
-                                  _isSearching = true;
-                                });
+                                setState(() => _isSearching = true);
 
                                 List<dynamic> recents;
                                 String tab = _showingTabItems[_currentIndex];
-
                                 if (tab.contains('emoji')) {
                                   _recentEmoji.clear();
                                   _recentEmoji.addAll((await EmojiPickerUtils()
@@ -182,17 +196,18 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
                                       .map((e) => e.emoji)
                                       .toList());
                                 } else if (tab.contains('sticker')) {
-                                  recents = recents =
+                                  _recentSticker.clear();
+                                  _recentSticker.addAll(
                                       (await StickerPickerUtils()
                                               .getRecentStickers())
                                           .map((e) => e.sticker)
-                                          .toList();
+                                          .toList());
                                 } else {
-                                  recents = recents =
-                                      (await GiphyGifPickerUtils()
-                                              .getRecentGiphyGif())
-                                          .map((e) => e.gif)
-                                          .toList();
+                                  _recentGif.clear();
+                                  _recentGif.addAll((await GiphyGifPickerUtils()
+                                          .getRecentGiphyGif())
+                                      .map((e) => e.gif)
+                                      .toList());
                                 }
                               },
                               icon: const Icon(
@@ -224,8 +239,9 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
                                 if (!_showingTabItems[_currentIndex]
                                         .contains("emoji") ||
                                     !widget.keyboardConfig.showBackSpace &&
-                                        widget.onBackspacePressed == null)
+                                        widget.onBackspacePressed == null) {
                                   return;
+                                }
                                 widget.onBackspacePressed!();
                               },
                               icon: const Icon(
