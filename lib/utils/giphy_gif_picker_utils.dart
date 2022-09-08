@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_social_keyboard/models/collection.dart';
 import 'package:flutter_social_keyboard/models/giphy_gif.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/models/recent_gif.dart';
+import 'package:flutter_social_keyboard/resources/client.dart';
 import 'package:flutter_social_keyboard/utils/giphy_gif_picker_internal_utils.dart';
 import 'package:flutter_social_keyboard/widgets/giphy_display.dart';
 
@@ -23,15 +25,33 @@ class GiphyGifPickerUtils {
 
   /// Add a giphy gif to recently used list or increase its counter
   Future addGiphyGifToRecentlyUsed({
-    required GlobalKey<GiphyDisplayState> key,
+    // required GlobalKey<GiphyDisplayState> key,
     required GiphyGif giphyGif,
     KeyboardConfig config = const KeyboardConfig(),
   }) async {
     return GiphyGifPickerInternalUtils()
-        .addGiphyGifToRecentlyUsed(giphyGif: giphyGif, config: config)
-        .then((recentStickerList) =>
-            key.currentState?.updateRecentGiphyGifs(recentStickerList));
+        .addGiphyGifToRecentlyUsed(giphyGif: giphyGif, config: config);
+    // .then((recentStickerList) =>
+    //     key.currentState?.updateRecentGiphyGifs(recentStickerList));
   }
 
-  Future<List<GiphyGif>> searchGiphyGif(String se) async {}
+  Future<List<GiphyGif?>> searchGiphyGif(
+      {required String searchQuery,
+      required KeyboardConfig keyboardConfig}) async {
+    if ((keyboardConfig.giphyAPIKey ?? "").isEmpty) return [];
+
+    try {
+      GiphyClient client = GiphyClient(apiKey: keyboardConfig.giphyAPIKey!);
+      GiphyCollection collection = await client.search(
+        searchQuery,
+        offset: 0,
+        limit: 50,
+        lang: keyboardConfig.gifLang,
+      );
+      return collection.data ?? [];
+    } catch (e) {
+      debugPrint(e.toString());
+      return [];
+    }
+  }
 }
