@@ -9,9 +9,9 @@ import 'package:flutter_social_keyboard/models/sticker.dart';
 import 'package:flutter_social_keyboard/utils/giphy_gif_picker_utils.dart';
 import 'package:flutter_social_keyboard/utils/sticker_picker_utils.dart';
 import 'package:flutter_social_keyboard/widgets/emoji_picker_widget.dart';
-import 'package:flutter_social_keyboard/widgets/emoji_search.dart';
+import 'package:flutter_social_keyboard/widgets/search/emoji_search.dart';
 import 'package:flutter_social_keyboard/widgets/gif_picker_widget.dart';
-import 'package:flutter_social_keyboard/widgets/giphy_gif_search.dart';
+import 'package:flutter_social_keyboard/widgets/search/giphy_gif_search.dart';
 import 'package:flutter_social_keyboard/widgets/sticker_picker_widget.dart';
 
 //Bottom bar height, bg-color, icon-color, active-icon-color
