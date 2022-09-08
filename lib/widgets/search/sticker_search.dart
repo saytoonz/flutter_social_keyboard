@@ -1,8 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_social_keyboard/flutter_social_keyboard.dart';
+import 'package:flutter_social_keyboard/models/keyboard_config.dart';
+import 'package:flutter_social_keyboard/models/sticker.dart';
 import 'package:flutter_social_keyboard/utils/sticker_picker_internal_utils.dart';
+import 'package:flutter_social_keyboard/utils/sticker_picker_utils.dart';
 
 class StickerSearch extends StatefulWidget {
   const StickerSearch({
@@ -56,7 +57,6 @@ class Calculates extends State<StickerSearch> {
       context: context,
     );
     stickers.clear();
-    print(result.map((e) => e.toJson()).toList());
     if (result.isNotEmpty) stickers.addAll(result);
     setState(() {
       _isSearching = false;

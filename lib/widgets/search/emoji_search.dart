@@ -259,7 +259,7 @@ class Calculates extends State<EmojiSearch> {
         _scrollController.offset -
         topOffset;
 
-    // Generate other skintone options
+    // Generate other skin tone options
     final skinTonesEmoji = SkinTone.values
         .map((skinTone) => applySkinTone(emoji, skinTone))
         .toList();
@@ -391,7 +391,7 @@ class SkinTone {
 /// corner of a container
 class TriangleDecoration extends Decoration {
   /// Constructor
-  TriangleDecoration({required this.color, required this.size}) : super();
+  const TriangleDecoration({required this.color, required this.size}) : super();
 
   /// Color of the triangle
   final Color color;

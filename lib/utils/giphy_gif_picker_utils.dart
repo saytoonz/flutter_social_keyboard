@@ -5,7 +5,6 @@ import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/models/recent_gif.dart';
 import 'package:flutter_social_keyboard/resources/client.dart';
 import 'package:flutter_social_keyboard/utils/giphy_gif_picker_internal_utils.dart';
-import 'package:flutter_social_keyboard/widgets/display/giphy_display.dart';
 
 /// Helper class that provides extended usage
 class GiphyGifPickerUtils {

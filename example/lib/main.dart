@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_social_keyboard/flutter_social_keyboard.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 void main() {
   runApp(

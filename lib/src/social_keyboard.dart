@@ -221,7 +221,6 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
 
                                 setState(() => _isSearching = true);
 
-                                List<dynamic> recents;
                                 String tab = _showingTabItems[_currentIndex];
                                 if (tab.contains('emoji')) {
                                   _recentEmoji.clear();
