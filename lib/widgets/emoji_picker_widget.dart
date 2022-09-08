@@ -26,8 +26,8 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
       config: Config(
         columns: widget.keyboardConfig.emojiColumns,
         emojiSizeMax: widget.keyboardConfig.emojiSizeMax,
-        verticalSpacing: widget.keyboardConfig.verticalSpacing,
-        horizontalSpacing: widget.keyboardConfig.horizontalSpacing,
+        verticalSpacing: widget.keyboardConfig.emojiVerticalSpacing,
+        horizontalSpacing: widget.keyboardConfig.emojiHorizontalSpacing,
         gridPadding: widget.keyboardConfig.gridPadding,
         initCategory: widget.keyboardConfig.initCategory,
         bgColor: widget.keyboardConfig.bgColor,

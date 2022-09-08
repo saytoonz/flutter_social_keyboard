@@ -48,8 +48,8 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     //
     emojiColumns: 9,
     emojiSizeMax: 32 * (Platform.isIOS ? 1.30 : 1.0),
-    verticalSpacing: 0,
-    horizontalSpacing: 0,
+    emojiVerticalSpacing: 0,
+    emojiHorizontalSpacing: 0,
     gridPadding: EdgeInsets.zero,
     initCategory: Category.RECENT,
     bgColor: const Color(0xFFF2F2F2),

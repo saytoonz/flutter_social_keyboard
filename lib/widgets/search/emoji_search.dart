@@ -4,7 +4,6 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
-import 'package:flutter_social_keyboard/widgets/triangle_decoration.dart';
 
 class EmojiSearch extends StatefulWidget {
   const EmojiSearch({
@@ -57,7 +56,6 @@ class Calculates extends State<EmojiSearch> {
   Widget build(BuildContext context) {
     return Container(
       color: widget.keyboardConfig.bgColor,
-      height: 90,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -67,6 +65,7 @@ class Calculates extends State<EmojiSearch> {
             children: [
               IconButton(
                 onPressed: widget.onCloseSearch,
+                padding: const EdgeInsets.all(4.0),
                 icon: const Icon(
                   Icons.close,
                 ),
@@ -375,4 +374,52 @@ class SkinTone {
 
   /// Return all values as Array
   static const values = [light, mediumLight, medium, mediumDark, dark];
+}
+
+/// Decoration that can be used to render a triangle in the bottom-right
+/// corner of a container
+class TriangleDecoration extends Decoration {
+  /// Constructor
+  TriangleDecoration({required this.color, required this.size}) : super();
+
+  /// Color of the triangle
+  final Color color;
+
+  /// Width and height of the triangle
+  final double size;
+
+  @override
+  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
+    return _TriangleShapePainter(color, size);
+  }
+}
+
+class _TriangleShapePainter extends BoxPainter {
+  /// Constructor
+  /// Expects color that the triangle will be filled with and
+  /// size of the triangle
+  _TriangleShapePainter(Color color, double size) {
+    _painter = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+    _size = size;
+  }
+
+  late final Paint _painter;
+  late final double _size;
+
+  @override
+  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
+    // per documentation, the size should be always not null here, no need
+    // for null checks
+    final s = configuration.size!;
+    var path = Path()
+      ..moveTo(s.width + offset.dx, s.height - _size + offset.dy)
+      ..lineTo(s.width - _size + offset.dx, s.height + offset.dy)
+      ..lineTo(s.width + offset.dx, s.height + offset.dy)
+      ..lineTo(s.width + offset.dx, s.height - _size + offset.dy)
+      ..close();
+
+    canvas.drawPath(path, _painter);
+  }
 }

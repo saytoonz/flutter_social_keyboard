@@ -33,4 +33,10 @@ class StickerPickerUtils {
         .then((recentStickerList) =>
             key.currentState?.updateRecentSticker(recentStickerList));
   }
+
+  /// Search stickers
+  Future<List<Sticker>> searchSticker({required String searchQuery}) async {
+    //Get all Sticker assets
+    return StickerPickerInternalUtils().getRecentStickers();
+  }
 }

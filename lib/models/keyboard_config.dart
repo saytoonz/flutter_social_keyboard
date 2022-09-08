@@ -20,8 +20,8 @@ class KeyboardConfig {
     this.stickerVerticalSpacing = 5,
     this.emojiColumns = 7,
     this.emojiSizeMax = 32.0,
-    this.verticalSpacing = 0,
-    this.horizontalSpacing = 0,
+    this.emojiVerticalSpacing = 0,
+    this.emojiHorizontalSpacing = 0,
     this.gridPadding = EdgeInsets.zero,
     this.initCategory = Category.RECENT,
     this.bgColor = const Color(0xFFEBEFF2),
@@ -76,10 +76,10 @@ class KeyboardConfig {
   final double emojiSizeMax;
 
   /// Vertical spacing between emojis
-  final double verticalSpacing;
+  final double emojiVerticalSpacing;
 
   /// Horizontal spacing between emojis
-  final double horizontalSpacing;
+  final double emojiHorizontalSpacing;
 
   /// The initial [Category] that will be selected
   /// This [Category] will have its button in the bottomBar darkened
