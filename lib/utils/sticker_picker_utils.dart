@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/models/recent_sticker.dart';
@@ -35,8 +37,35 @@ class StickerPickerUtils {
   }
 
   /// Search stickers
-  Future<List<Sticker>> searchSticker({required String searchQuery}) async {
+  Future<List<Sticker>> searchSticker({
+    required String searchQuery,
+    required BuildContext context,
+  }) async {
     //Get all Sticker assets
-    return StickerPickerInternalUtils().getRecentStickers();
+
+    // Load as String
+    final manifestContent =
+        await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+    // Decode to Map
+    final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+
+// Filter by path
+    List<Sticker> allStickers = manifestMap.keys
+        .where((path) => path.startsWith('assets/stickers/'))
+        .where(
+          (path) =>
+              (path.toLowerCase()).endsWith(".webp") ||
+              (path.toLowerCase()).endsWith(".png") ||
+              (path.toLowerCase()).endsWith(".jpg") ||
+              (path.toLowerCase()).endsWith(".gif") ||
+              (path.toLowerCase()).endsWith(".jpeg"),
+        )
+        .where((element) => element.split('/')[-1].contains(searchQuery))
+        .toList()
+        .map((assetUrl) =>
+            Sticker(assetUrl: assetUrl, category: assetUrl.split('/')[-2]))
+        .toList();
+
+    return allStickers;
   }
 }
