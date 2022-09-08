@@ -60,10 +60,10 @@ class StickerPickerUtils {
               (path.toLowerCase()).endsWith(".gif") ||
               (path.toLowerCase()).endsWith(".jpeg"),
         )
-        .where((element) => element.split('/')[-1].contains(searchQuery))
+        .where((element) => element.split('/').last.contains(searchQuery))
         .toList()
         .map((assetUrl) =>
-            Sticker(assetUrl: assetUrl, category: assetUrl.split('/')[-2]))
+            Sticker(assetUrl: assetUrl, category: assetUrl.split('/')[2]))
         .toList();
 
     return allStickers;
