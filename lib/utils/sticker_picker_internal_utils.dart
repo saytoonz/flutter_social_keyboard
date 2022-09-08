@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'dart:math';
 
-import 'package:flutter_social_keyboard/flutter_social_keyboard.dart';
+import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 import 'package:flutter_social_keyboard/models/recent_sticker.dart';
+import 'package:flutter_social_keyboard/models/sticker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StickerPickerInternalUtils {
@@ -19,9 +20,10 @@ class StickerPickerInternalUtils {
   }
 
   /// Add an sticker to recently used list or increase its counter
-  Future<List<RecentSticker>> addStickerToRecentlyUsed(
-      {required Sticker sticker,
-      KeyboardConfig config = const KeyboardConfig()}) async {
+  Future<List<RecentSticker>> addStickerToRecentlyUsed({
+    required Sticker sticker,
+    KeyboardConfig config = const KeyboardConfig(),
+  }) async {
     var recentSticker = await getRecentStickers();
     var recentStickerIndex = recentSticker
         .indexWhere((element) => element.sticker.assetUrl == sticker.assetUrl);

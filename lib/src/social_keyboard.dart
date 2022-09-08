@@ -18,12 +18,21 @@ import 'package:flutter_social_keyboard/widgets/sticker_picker_widget.dart';
 //Bottom bar height, bg-color, icon-color, active-icon-color
 //
 class FlutterSocialKeyboard extends StatefulWidget {
+  ///Optional keyboard configuration
   final KeyboardConfig keyboardConfig;
+
+  /// Optional callback function for when emoji is pressed
   final Function(Category, Emoji)? onEmojiSelected;
+
+  /// optional callback function for when BackSpace button is pressed
   final Function()? onBackspacePressed;
-  final Function(String, List<dynamic>)? onSearchButtonPressed;
+
+  /// optional callback function for when gif is pressed
   final Function(GiphyGif)? onGifSelected;
+
+  /// optional callback function for when sticker is pressed
   final Function(Sticker)? onStickerSelected;
+
   const FlutterSocialKeyboard({
     Key? key,
     this.keyboardConfig = const KeyboardConfig(),
@@ -31,7 +40,6 @@ class FlutterSocialKeyboard extends StatefulWidget {
     this.onGifSelected,
     this.onBackspacePressed,
     this.onStickerSelected,
-    this.onSearchButtonPressed,
   }) : super(key: key);
 
   @override

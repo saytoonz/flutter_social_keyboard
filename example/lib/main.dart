@@ -24,59 +24,6 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   GiphyGif? selectedGif;
   Sticker? selectedSticker;
 
-  bool _isSearching = false;
-
-  final KeyboardConfig _keyboardConfig = KeyboardConfig(
-    useEmoji: true,
-    useGif: true,
-    useSticker: true,
-
-    giphyAPIKey: "vkOdSI3QLuAopjBKdwzeLC0mTCRJXIQM",
-    gifTabs: ["Hey", "One", 'Haha', 'Sad', 'Love', 'Reaction'],
-    gifHorizontalSpacing: 5,
-    gifVerticalSpacing: 5,
-    gifColumns: 3,
-    gifLang: GiphyLanguage.english,
-    //
-    stickerColumns: 5,
-    stickerHorizontalSpacing: 5,
-    stickerVerticalSpacing: 5,
-    //
-    withSafeArea: true,
-    //
-    emojiColumns: 9,
-    emojiSizeMax: 32 * (Platform.isIOS ? 1.30 : 1.0),
-    emojiVerticalSpacing: 0,
-    emojiHorizontalSpacing: 0,
-    gridPadding: EdgeInsets.zero,
-    initCategory: Category.RECENT,
-    bgColor: const Color(0xFFF2F2F2),
-    indicatorColor: Colors.blue,
-    iconColor: Colors.grey,
-    iconColorSelected: Colors.blue,
-    progressIndicatorColor: Colors.blue,
-    backspaceColor: Colors.blue,
-    skinToneDialogBgColor: Colors.white,
-    skinToneIndicatorColor: Colors.grey,
-    enableSkinTones: true,
-    showRecentsTab: true,
-    recentsLimit: 28,
-    noRecents: const Text(
-      'No Recents',
-      style: TextStyle(
-        fontSize: 20,
-        color: Colors.black26,
-      ),
-      textAlign: TextAlign.center,
-    ),
-    replaceRecentOnLimitExceed: true,
-    tabIndicatorAnimDuration: kTabScrollDuration,
-    categoryIcons: const CategoryIcons(),
-    buttonMode: ButtonMode.CUPERTINO,
-    showBackSpace: true,
-    showSearchButton: true,
-  );
-
   @override
   Widget build(BuildContext context) {
     return Material(child: _body());
@@ -86,7 +33,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Flutter Plugin Example'),
+        title: const Text('Flutter Social Keyboard'),
       ),
       body: Column(
         children: [
@@ -141,7 +88,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
             ),
           ),
           SizedBox(
-            height: _isSearching ? 90 : 280,
+            height: 280,
             child: FlutterSocialKeyboard(
               onEmojiSelected: (Category category, Emoji emoji) {
                 // Do something when emoji is tapped (optional)
@@ -168,12 +115,56 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 // Do something when the user taps the backspace button (optional)
                 // print("Backspace button pressed");
               },
-              onSearchButtonPressed: (String tab, List<dynamic> recents) {
-                setState(() {
-                  _isSearching = true;
-                });
-              },
-              keyboardConfig: _keyboardConfig,
+              keyboardConfig: KeyboardConfig(
+                useEmoji: true,
+                useGif: true,
+                useSticker: true,
+
+                giphyAPIKey: "vkOdSI3QLuAopjBKdwzeLC0mTCRJXIQM",
+                gifTabs: ["Hey", "One", 'Haha', 'Sad', 'Love', 'Reaction'],
+                gifHorizontalSpacing: 5,
+                gifVerticalSpacing: 5,
+                gifColumns: 3,
+                gifLang: GiphyLanguage.english,
+                //
+                stickerColumns: 5,
+                stickerHorizontalSpacing: 5,
+                stickerVerticalSpacing: 5,
+                //
+                withSafeArea: true,
+                //
+                emojiColumns: 9,
+                emojiSizeMax: 32 * (Platform.isIOS ? 1.30 : 1.0),
+                emojiVerticalSpacing: 0,
+                emojiHorizontalSpacing: 0,
+                gridPadding: EdgeInsets.zero,
+                initCategory: Category.RECENT,
+                bgColor: const Color(0xFFF2F2F2),
+                indicatorColor: Colors.blue,
+                iconColor: Colors.grey,
+                iconColorSelected: Colors.blue,
+                progressIndicatorColor: Colors.blue,
+                backspaceColor: Colors.blue,
+                skinToneDialogBgColor: Colors.white,
+                skinToneIndicatorColor: Colors.grey,
+                enableSkinTones: true,
+                showRecentsTab: true,
+                recentsLimit: 28,
+                noRecents: const Text(
+                  'No Recents',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black26,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                replaceRecentOnLimitExceed: true,
+                tabIndicatorAnimDuration: kTabScrollDuration,
+                categoryIcons: const CategoryIcons(),
+                buttonMode: ButtonMode.CUPERTINO,
+                showBackSpace: true,
+                showSearchButton: true,
+              ),
             ),
           ),
         ],

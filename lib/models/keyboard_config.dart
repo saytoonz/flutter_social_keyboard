@@ -49,23 +49,54 @@ class KeyboardConfig {
     this.showSearchButton = true,
   });
 
+  ///Enable Emoji keyboard
   final bool useEmoji;
+
+  ///Enable gif keyboard
   final bool useGif;
+
+  ///Enable sticker keyboard
   final bool useSticker;
 
+  /// Your Giphy API Key
+  /// It is required when using gif
+  /// You can get one from [https://developers.giphy.com/dashboard](https://developers.giphy.com/dashboard)
   final String? giphyAPIKey;
+
+  /// Create tabs that would serve as categories for gifs from giphy
+  /// Default is ['Haha', 'Sad', 'Love', 'Reaction']
   final List<String> gifTabs;
+
+  /// Number of gifs per row
   final int gifColumns;
+
+  /// Vertical spacing between gifs
   final double gifVerticalSpacing;
+
+  /// Horizontal spacing between gifs
   final double gifHorizontalSpacing;
+
+  /// Language giphy suppose to use in search
+  /// Default is english [GiphyLanguage.english]
   final String gifLang;
 
+  /// Number of stickers per row
   final int stickerColumns;
+
+  /// Vertical spacing between stickers
   final double stickerVerticalSpacing;
+
+  /// Horizontal spacing between stickers
   final double stickerHorizontalSpacing;
+
+  /// Apply [SafeArea] widget around keyboard
   final bool withSafeArea;
 
+  /// Show search button on the bottom nav
   final bool showSearchButton;
+
+  /// Show backspace button on the bottom nav
+  /// Backspace is normally used for deleting characters/emojis
   final bool showBackSpace;
 
   /// Number of emojis per row
