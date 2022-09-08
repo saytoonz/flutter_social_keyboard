@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_keyboard/flutter_social_keyboard.dart';
-import 'package:flutter_social_keyboard/utils/giphy_gif_picker_internal_utils.dart';
 import 'package:flutter_social_keyboard/utils/sticker_picker_internal_utils.dart';
 
 class StickerSearch extends StatefulWidget {
@@ -48,8 +47,10 @@ class Calculates extends State<StickerSearch> {
     }
     List<Sticker> result = await StickerPickerUtils().searchSticker(
       searchQuery: _textController.text,
+      context: context,
     );
     stickers.clear();
+    print(result);
     if (result.isNotEmpty) stickers.addAll(result);
     setState(() {
       _isSearching = false;
