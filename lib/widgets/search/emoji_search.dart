@@ -92,7 +92,7 @@ class Calculates extends State<EmojiSearch> {
                 alignLabelWithHint: true,
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.zero,
-                hintText: "Search Giphy",
+                hintText: "Search Emoji",
                 hintStyle: TextStyle(
                   color: Colors.grey.shade700,
                 ),
