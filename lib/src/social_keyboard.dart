@@ -12,6 +12,7 @@ import 'package:flutter_social_keyboard/widgets/emoji_picker_widget.dart';
 import 'package:flutter_social_keyboard/widgets/search/emoji_search.dart';
 import 'package:flutter_social_keyboard/widgets/gif_picker_widget.dart';
 import 'package:flutter_social_keyboard/widgets/search/giphy_gif_search.dart';
+import 'package:flutter_social_keyboard/widgets/search/sticker_search.dart';
 import 'package:flutter_social_keyboard/widgets/sticker_picker_widget.dart';
 
 //Bottom bar height, bg-color, icon-color, active-icon-color
@@ -131,18 +132,51 @@ class _FlutterSocialKeyboardState extends State<FlutterSocialKeyboard> {
                     });
                   },
                 )
-              : GiphyGifSearch(
-                  recents: _recentGif,
-                  keyboardConfig: widget.keyboardConfig,
-                  onGifSelected: (GiphyGif giphyGif) {
-                    widget.onGifSelected!(giphyGif);
-                  },
-                  onCloseSearch: () {
-                    setState(() {
-                      _isSearching = false;
-                    });
-                  },
-                )
+              : _showingTabItems[_currentIndex].contains("emoji")
+                  ? EmojiSearch(
+                      emojiSize: 24,
+                      recents: _recentEmoji,
+                      keyboardConfig: widget.keyboardConfig,
+                      onEmojiSelected: (Emoji emoji) {
+                        if (widget.onEmojiSelected != null) {
+                          widget.onEmojiSelected!(Category.RECENT, emoji);
+                        }
+                      },
+                      onCloseSearch: () {
+                        setState(() {
+                          _isSearching = false;
+                        });
+                      },
+                    )
+                  : _showingTabItems[_currentIndex].contains('sticker')
+                      ? StickerSearch(
+                          recents: _recentSticker,
+                          keyboardConfig: widget.keyboardConfig,
+                          onStickerSelected: (Sticker sticker) {
+                            if (widget.onStickerSelected != null) {
+                              widget.onStickerSelected!(sticker);
+                            }
+                          },
+                          onCloseSearch: () {
+                            setState(() {
+                              _isSearching = false;
+                            });
+                          },
+                        )
+                      : GiphyGifSearch(
+                          recents: _recentGif,
+                          keyboardConfig: widget.keyboardConfig,
+                          onGifSelected: (GiphyGif giphyGif) {
+                            if (widget.onGifSelected != null) {
+                              widget.onGifSelected!(giphyGif);
+                            }
+                          },
+                          onCloseSearch: () {
+                            setState(() {
+                              _isSearching = false;
+                            });
+                          },
+                        )
           : Column(
               children: [
                 Expanded(
