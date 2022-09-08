@@ -50,7 +50,7 @@ class Calculates extends State<StickerSearch> {
       context: context,
     );
     stickers.clear();
-    print(result);
+    print(result.map((e) => e.toJson()).toList());
     if (result.isNotEmpty) stickers.addAll(result);
     setState(() {
       _isSearching = false;
@@ -97,7 +97,7 @@ class Calculates extends State<StickerSearch> {
                 alignLabelWithHint: true,
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.zero,
-                hintText: "Search Giphy",
+                hintText: "Search Sticker",
                 hintStyle: TextStyle(
                   color: Colors.grey.shade700,
                 ),
