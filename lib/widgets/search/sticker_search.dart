@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_social_keyboard/flutter_social_keyboard.dart';
 import 'package:flutter_social_keyboard/utils/sticker_picker_internal_utils.dart';
 
@@ -23,6 +24,7 @@ class StickerSearch extends StatefulWidget {
 class Calculates extends State<StickerSearch> {
   final List<Sticker> stickers = List.empty(growable: true);
   final TextEditingController _textController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
   bool _isSearching = false;
 
@@ -31,6 +33,10 @@ class Calculates extends State<StickerSearch> {
     super.initState();
     stickers.addAll(widget.recents);
     _textController.addListener(_search);
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
   }
 
   _search() async {
@@ -86,7 +92,7 @@ class Calculates extends State<StickerSearch> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: TextField(
-              // focusNode: _focusNode,
+              focusNode: _focusNode,
               controller: _textController,
               style: const TextStyle(
                 height: 1.0,

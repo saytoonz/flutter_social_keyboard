@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_social_keyboard/models/keyboard_config.dart';
 
 class EmojiSearch extends StatefulWidget {
@@ -30,12 +31,18 @@ class Calculates extends State<EmojiSearch> {
   final List<Emoji> emojis = List.empty(growable: true);
   final TextEditingController _textController = TextEditingController();
 
+  final FocusNode _focusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
     emojis.addAll(widget.recents);
     _scrollController.addListener(_closeSkinToneDialog);
     _textController.addListener(_searchEmoji);
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
   }
 
   _searchEmoji() async {
@@ -81,7 +88,7 @@ class Calculates extends State<EmojiSearch> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: TextField(
-              // focusNode: _focusNode,
+              focusNode: _focusNode,
               controller: _textController,
               style: const TextStyle(
                 height: 1.0,
@@ -119,23 +126,14 @@ class Calculates extends State<EmojiSearch> {
     // Build page normally
     return GestureDetector(
       onTap: _closeSkinToneDialog,
-      child:
-          // ListView(
-          //   scrollDirection: Axis.horizontal,
-          //   controller: _scrollController,
-          //   children: [
-          //     for (int i = 0; i < categoryEmoji.length; i++)
-          //       _buildEmojiCell(emojiSize, categoryEmoji[i], i)
-          //   ],
-          // )
-          GridView.count(
-        scrollDirection: Axis.horizontal,
-        // controller: widget.scrollController,
-        // primary: false,
-        // padding: widget.keyboardConfig.gridPadding,
-        crossAxisCount: 4,
-        // mainAxisSpacing: widget.keyboardConfig.verticalSpacing,
-        // crossAxisSpacing: widget.keyboardConfig.horizontalSpacing,
+      child: GridView.count(
+        scrollDirection: Axis.vertical,
+        controller: _scrollController,
+        primary: false,
+        padding: widget.keyboardConfig.gridPadding,
+        crossAxisCount: widget.keyboardConfig.emojiColumns,
+        mainAxisSpacing: widget.keyboardConfig.emojiVerticalSpacing,
+        crossAxisSpacing: widget.keyboardConfig.emojiHorizontalSpacing,
         children: [
           for (int i = 0; i < categoryEmoji.length; i++)
             _buildEmojiCell(emojiSize, categoryEmoji[i], i)
@@ -225,32 +223,41 @@ class Calculates extends State<EmojiSearch> {
       style: style,
     );
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Center(
-        child: emoji.hasSkinTone && showSkinToneIndicator
-            ? Container(
-                decoration: TriangleDecoration(color: Colors.red, size: 8.0),
-                child: emojiText,
-              )
-            : emojiText,
-      ),
+    return Center(
+      child: emoji.hasSkinTone && showSkinToneIndicator
+          ? Container(
+              decoration: TriangleDecoration(
+                color: widget.keyboardConfig.skinToneIndicatorColor,
+                size: 8.0,
+              ),
+              child: emojiText,
+            )
+          : emojiText,
     );
   }
 
   /// Overlay for SkinTone
-  OverlayEntry _buildSkinToneOverlay(Emoji emoji, double emojiSize, int index) {
+  OverlayEntry _buildSkinToneOverlay(
+    Emoji emoji,
+    double emojiSize,
+    int index,
+  ) {
     // Calculate position of emoji in the grid
     final row = index ~/ widget.keyboardConfig.emojiColumns;
-    final column = emojis.length; // index % widget.keyboardConfig.emojiColumns;
+    final column = index % widget.keyboardConfig.emojiColumns;
     // Calculate position for skin tone dialog
     final renderBox = context.findRenderObject() as RenderBox;
     final offset = renderBox.localToGlobal(Offset.zero);
     final emojiSpace =
         renderBox.size.width / widget.keyboardConfig.emojiColumns;
+    final topOffset = emojiSpace;
     final leftOffset = _getLeftOffset(emojiSpace, column);
     final left = offset.dx + column * emojiSpace + leftOffset;
-    final top = offset.dy + 240 / 4;
+    final top = 46 +
+        offset.dy +
+        row * emojiSpace -
+        _scrollController.offset -
+        topOffset;
 
     // Generate other skintone options
     final skinTonesEmoji = SkinTone.values
@@ -283,7 +290,11 @@ class Calculates extends State<EmojiSearch> {
   }
 
   // Build Emoji inside skin tone dialog
-  Widget _buildSkinToneEmoji(Emoji emoji, double width, double emojiSize) {
+  Widget _buildSkinToneEmoji(
+    Emoji emoji,
+    double width,
+    double emojiSize,
+  ) {
     return SizedBox(
       width: width,
       height: width,

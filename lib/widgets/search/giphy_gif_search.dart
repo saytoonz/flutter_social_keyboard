@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_social_keyboard/flutter_social_keyboard.dart';
 import 'package:flutter_social_keyboard/utils/giphy_gif_picker_internal_utils.dart';
 
@@ -24,6 +25,8 @@ class Calculates extends State<GiphyGifSearch> {
   final List<GiphyGif?> giphyGifs = List.empty(growable: true);
   final TextEditingController _textController = TextEditingController();
 
+  final FocusNode _focusNode = FocusNode();
+
   bool _isSearching = false;
 
   @override
@@ -31,6 +34,10 @@ class Calculates extends State<GiphyGifSearch> {
     super.initState();
     giphyGifs.addAll(widget.recents);
     _textController.addListener(_search);
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
   }
 
   _search() async {
@@ -85,7 +92,7 @@ class Calculates extends State<GiphyGifSearch> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: TextField(
-              // focusNode: _focusNode,
+              focusNode: _focusNode,
               controller: _textController,
               style: const TextStyle(
                 height: 1.0,
