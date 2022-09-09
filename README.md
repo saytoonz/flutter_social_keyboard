@@ -6,16 +6,16 @@ Fully customizable Emoji picker, Gif picker and Sticker for your flutter social 
   > **Acknowledgment:** Much thanks to [Stefan Humm](https://github.com/Fintasys) for [emoji_picker_flutter](https://pub.dev/packages/emoji_picker_flutter).
 
 ## Preview
-<img src="screenshots/emoji_motion.webp" width="250">
-<img src="screenshots/emoji_motion.webp" width="250">
-<img src="screenshots/emoji_motion.webp" width="250">
+<img src="screenshots/emoji_motion.webp" width="220">
+<img src="screenshots/gif_motion.webp" width="220">
+<img src="screenshots/sticker_motion.webp" width="220">
 
 
 ## Support
 If the package was useful or saved your time, please do not hesitate to buy me a cup of coffee! ;)  
 The more caffeine I get, the more useful projects I can make in the future. 
 
-<a href="https://www.buymeacoffee.com/saytoonz" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/blue_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://www.buymeacoffee.com/saytoonz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 
 ## Key features
@@ -64,9 +64,7 @@ Package depends on your project asset for sticker images
 - Create an **asset** folder in your project directory (name must be *asset*)
 - Create a folder named **stickers** within the asset folder
 - Create sub-folders in the sticker containing an the sticker asset files
-<br>
 <img src="screenshots/sticker-folder-setup.png" width="250">
-<br>
 - Folder names of the sub-folders in the sticker folders are considered as categories and tab names
 - Supported files include .png, .gif, .webp, .jpg and .jpeg,
 - Link all sticker folders in the pubspec.yaml file
@@ -230,7 +228,7 @@ Please file feature requests and bugs at the [issue tracker][tracker].
 [tracker]: https://github.com/saytoonz/flutter_social_keyboard/issues/new
 
 
-<a href="https://www.buymeacoffee.com/saytoonz" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/blue_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://www.buymeacoffee.com/saytoonz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 
 ## Connect with me
