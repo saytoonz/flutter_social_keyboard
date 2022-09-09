@@ -7,14 +7,14 @@ Fully customizable Emoji picker, Gif picker and Sticker for your flutter social 
 
 ## Preview
 .
-<img src="https://xridegh.com/emoji_motion.webp" width="220"> <img src="https://xridegh.com/gif_motion.webp" width="220"> <img src="https://xridegh.com/sticker_motion.webp" width="220">
+<img src="https://camo.githubusercontent.com/1471a5ace46d71b5871831b8ced3dd2a4e29b1cd28d628d97a7de38eff49c41e/68747470733a2f2f787269646567682e636f6d2f656d6f6a695f6d6f74696f6e2e77656270" width="220"> <img src="https://camo.githubusercontent.com/9919705af9b24a633ee80dc22e7192673727aecaf9c713d5c33bbf6e738408fa/68747470733a2f2f787269646567682e636f6d2f6769665f6d6f74696f6e2e77656270" width="220"> <img src="https://camo.githubusercontent.com/267103da0c359f98ea1bf2d2050c5072662f1e18c29519d8b3b878315ab356d1/68747470733a2f2f787269646567682e636f6d2f737469636b65725f6d6f74696f6e2e77656270" width="220">
 
 
 ## Support
 If the package was useful or saved your time, please do not hesitate to buy me a cup of coffee! ;)  
 The more caffeine I get, the more useful projects I can make in the future. 
 
-<a href="https://www.buymeacoffee.com/saytoonz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://www.buymeacoffee.com/saytoonz" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 
 ## Key features
@@ -63,12 +63,14 @@ Package depends on your project asset for sticker images
 - Create an **asset** folder in your project directory (name must be *asset*)
 - Create a folder named **stickers** within the asset folder
 - Create sub-folders in the sticker containing an the sticker asset files
-<img src="https://xridegh.com/sticker-folder-setup.png" width="250">
+<br>
+<img src="https://camo.githubusercontent.com/1c294e4cf59f08b563039c3de1a7638ae8cc116fa428c503f6a364aef5945d84/68747470733a2f2f787269646567682e636f6d2f737469636b65722d666f6c6465722d73657475702e706e67" width="250">
+<br>
 - Folder names of the sub-folders in the sticker folders are considered as categories and tab names
 - Supported files include .png, .gif, .webp, .jpg and .jpeg,
 - Link all sticker folders in the pubspec.yaml file
 <br>
-<img src="https://xridegh.com/sticker-pub-setup.png" width="250">
+<img src="https://camo.githubusercontent.com/30838e9dbc2ec71bcc53e9b0c8519dbe816488faae917959d5bfb77e557dc1b6/68747470733a2f2f787269646567682e636f6d2f737469636b65722d7075622d73657475702e706e67" width="250">
 <br>
 
 
@@ -221,9 +223,9 @@ final addRecentGif = await GiphyGifPickerUtils().addGiphyGifToRecentlyUsed(giphy
 ## Feel free to contribute to this package!! 🙇‍♂️
 Always happy if anyone wants to help to improve this package!
 <br>
-<img src="https://xridegh.com/EmojiShot.PNG" width="250">
-<img src="https://xridegh.com/GiphyGifShot.PNG" width="250">
-<img src="https://xridegh.com/StickerShot.PNG" width="250">
+<img src="https://camo.githubusercontent.com/c78124dfaa325b270bb3282bfebc47667064499bc79542764a357452708510aa/68747470733a2f2f787269646567682e636f6d2f456d6f6a6953686f742e504e47" width="250">
+<img src="https://camo.githubusercontent.com/8f4d9f7c1e7c2a075f161fc54ed7873a0105d415e806330505bf6fcd48a90934/68747470733a2f2f787269646567682e636f6d2f476970687947696653686f742e504e47" width="250">
+<img src="https://camo.githubusercontent.com/229679b23fb8676d1260692481e6d33bcf0eeac3eca9c18121d7ca615a14cb15/68747470733a2f2f787269646567682e636f6d2f537469636b657253686f742e504e47" width="250">
 
 ## Feature Requests and Issues
 Please file feature requests and bugs at the [issue tracker][tracker].
@@ -231,8 +233,8 @@ Please file feature requests and bugs at the [issue tracker][tracker].
 [tracker]: https://github.com/saytoonz/flutter_social_keyboard/issues/new
 
 
-<a href="https://www.buymeacoffee.com/saytoonz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
+<a href="https://www.buymeacoffee.com/saytoonz" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 ## Connect with me
 [<img align="left" alt="Sam | Twitter" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/twitter.svg" />](https://twitter.com/saytoonz)
