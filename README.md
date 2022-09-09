@@ -6,9 +6,8 @@ Fully customizable Emoji picker, Gif picker and Sticker for your flutter social 
   > **Acknowledgment:** Much thanks to [Stefan Humm](https://github.com/Fintasys) for [emoji_picker_flutter](https://pub.dev/packages/emoji_picker_flutter).
 
 ## Preview
-Always happy if anyone wants to help to improve this package!
 <br>
-<img src="screenshots/emoji_motion.webp" width="220"><img src="screenshots/gif_motion.webp" width="220"><img src="screenshots/sticker_motion.webp" width="220">
+<img src="screenshots/emoji_motion.webp" width="220">  <img src="screenshots/gif_motion.webp" width="220">  <img src="screenshots/sticker_motion.webp" width="220">
 
 
 ## Support
