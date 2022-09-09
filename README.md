@@ -7,7 +7,7 @@ Fully customizable Emoji picker, Gif picker and Sticker for your flutter social 
 
 ## Preview
 .
-<img src="screenshots/emoji_motion.webp" width="220"> <img src="screenshots/gif_motion.webp" width="220"> <img src="screenshots/sticker_motion.webp" width="220">
+<img src="https://xridegh.com/emoji_motion.webp" width="220"> <img src="https://xridegh.com/gif_motion.webp" width="220"> <img src="https://xridegh.com/sticker_motion.webp" width="220">
 
 
 ## Support
@@ -63,12 +63,12 @@ Package depends on your project asset for sticker images
 - Create an **asset** folder in your project directory (name must be *asset*)
 - Create a folder named **stickers** within the asset folder
 - Create sub-folders in the sticker containing an the sticker asset files
-<img src="screenshots/sticker-folder-setup.png" width="250">
+<img src="https://xridegh.com/sticker-folder-setup.png" width="250">
 - Folder names of the sub-folders in the sticker folders are considered as categories and tab names
 - Supported files include .png, .gif, .webp, .jpg and .jpeg,
 - Link all sticker folders in the pubspec.yaml file
 <br>
-<img src="screenshots/sticker-pub-setup.png" width="250">
+<img src="https://xridegh.com/sticker-pub-setup.png" width="250">
 <br>
 
 
@@ -221,9 +221,9 @@ final addRecentGif = await GiphyGifPickerUtils().addGiphyGifToRecentlyUsed(giphy
 ## Feel free to contribute to this package!! 🙇‍♂️
 Always happy if anyone wants to help to improve this package!
 <br>
-<img src="screenshots/EmojiShot.PNG" width="250">
-<img src="screenshots/GiphyGifShot.PNG" width="250">
-<img src="screenshots/StickerShot.PNG" width="250">
+<img src="https://xridegh.com/EmojiShot.PNG" width="250">
+<img src="https://xridegh.com/GiphyGifShot.PNG" width="250">
+<img src="https://xridegh.com/StickerShot.PNG" width="250">
 
 ## Feature Requests and Issues
 Please file feature requests and bugs at the [issue tracker][tracker].
