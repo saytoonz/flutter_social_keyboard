@@ -150,7 +150,7 @@ See the [demo](https://github.com/saytoonz/flutter_social_keyboard/blob/master/e
 | withSafeArea             | Apply [SafeArea] widget around keyboard                                       |true    |
 | showSearchButton             | Show search button on the bottom nav                                       |true    |
 | showBackSpace             | Show backspace button on the bottom nav                                       |7    |
-| giphyAPIKey     | Your Giphy API Key. It is required when using gif. You can get one from [https://developers.giphy.com/dashboard](https://developers.giphy.com/dashboard)                 |  |
+| giphyAPIKey     | Your Giphy API Key. It is required when using gif. You can get one from [https://developers.giphy.com/dashboard](https://developers.giphy.com/dashboard)                 | null |
 | gifTabs     | Create tabs that would serve as categories for gifs from giphy                  | ['Haha', 'Sad', 'Love', 'Reaction'] |
 | gifColumns             | Number of gifs per row                                       |3    |
 | gifVerticalSpacing             | Vertical spacing between gifs                                       |5    |
