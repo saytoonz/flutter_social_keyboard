@@ -6,9 +6,8 @@ Fully customizable Emoji picker, Gif picker and Sticker for your flutter social 
   > **Acknowledgment:** Much thanks to [Stefan Humm](https://github.com/Fintasys) for [emoji_picker_flutter](https://pub.dev/packages/emoji_picker_flutter).
 
 ## Preview
-Always happy if anyone wants to help to improve this package!
-<br>
-<img src="screenshots/emoji_motion.webp" width="220"><img src="screenshots/gif_motion.webp" width="220"><img src="screenshots/sticker_motion.webp" width="220">
+.
+<img src="screenshots/emoji_motion.webp" width="220"> <img src="screenshots/gif_motion.webp" width="220"> <img src="screenshots/sticker_motion.webp" width="220">
 
 
 ## Support
@@ -80,41 +79,30 @@ Package depends on your project asset for sticker images
 FlutterSocialKeyboard(
   onEmojiSelected: (Category category, Emoji emoji) {
     // Do something when emoji is tapped (optional)
-    // print(emoji);
-    setState(() {
-      selectedEmoji = emoji;
-    });
   },
   onGifSelected: (GiphyGif gif) {
     // Do something when gif is tapped (optional)
-    // print(gif);
   },
   onStickerSelected: (Sticker sticker) {
     // Do something when sticker is tapped (optional)
-    // print(sticker.toJson());
   },
   onBackspacePressed: () {
     // Do something when the user taps the backspace button (optional)
-    // print("Backspace button pressed");
   },
   keyboardConfig: KeyboardConfig(
     useEmoji: true, //Enable emoji picker
     useGif: true, //Enable gif picker
     useSticker: true, //Enable Sticker picker
-
     giphyAPIKey: "API KEY HERE", 
     gifTabs: ["Hey", "One", 'Haha', 'Sad', 'Love', 'Reaction'],
     gifHorizontalSpacing: 5,
     gifVerticalSpacing: 5,
     gifColumns: 3,
     gifLang: GiphyLanguage.english,
-    //
     stickerColumns: 5,
     stickerHorizontalSpacing: 5,
     stickerVerticalSpacing: 5,
-    //
     withSafeArea: true,
-    //
     emojiColumns: 9,
     emojiSizeMax: 32 * (Platform.isIOS ? 1.30 : 1.0),
     emojiVerticalSpacing: 0,
@@ -156,12 +144,27 @@ See the [demo](https://github.com/saytoonz/flutter_social_keyboard/blob/master/e
 
 | property        | description                                                        | default    |
 | --------------- | ------------------------------------------------------------------ |------------|
-| columns             | Number of emojis per row                                       |7    |
+| useEmoji     | Enable Emoji keyboard                  | true |
+| useGif     | Enable Gif keyboard                  | true |
+| useSticker     | Enable Sticker keyboard                  | true |
+| withSafeArea             | Apply [SafeArea] widget around keyboard                                       |true    |
+| showSearchButton             | Show search button on the bottom nav                                       |true    |
+| showBackSpace             | Show backspace button on the bottom nav                                       |7    |
+| giphyAPIKey     | Your Giphy API Key. It is required when using gif. You can get one from [https://developers.giphy.com/dashboard](https://developers.giphy.com/dashboard)                 |  |
+| gifTabs     | Create tabs that would serve as categories for gifs from giphy                  | ['Haha', 'Sad', 'Love', 'Reaction'] |
+| gifColumns             | Number of gifs per row                                       |3    |
+| gifVerticalSpacing             | Vertical spacing between gifs                                       |5    |
+| gifHorizontalSpacing             | Horizontal spacing between gifs                                       |5    |
+| gifLang             | Language giphy suppose to use in search                                       |GiphyLanguage.english    |
+| stickerColumns             | Number of stickers per row                                       |4    |
+| stickerVerticalSpacing             | Vertical spacing between stickers                                       |5    |
+| stickerHorizontalSpacing             | Horizontal spacing between stickers                                       |5    |
+| emojiColumns             | Number of emojis per row                                       |7    |
 | emojiSizeMax     | Width and height the emoji will be maximal displayed                 |32.0  |
-| verticalSpacing         | Vertical spacing between emojis | 0    |
-| horizontalSpacing | Horizontal spacing between emojis                                                 | 0     |
+| emojiVerticalSpacing         | Vertical spacing between emojis | 0    |
+| emojiHorizontalSpacing | Horizontal spacing between emojis                                                 | 0     |
 | gridPadding | The padding of GridView                                                                              | EdgeInsets.zero                                                                                        |
-| initCategory         | The initial Category that will be selected                                                         |Category.RECENT   |
+| initCategory         | The initial Category that will be selected for the emoji picker                                                         |Category.RECENT   |
 | bgColor       | The background color of the Widget                                                       |Color(0xFFF2F2F2)    |
 | indicatorColor        | The color of the category indicator                                                       | Colors.blue      |
 | iconColor    | The color of the category icons                                                       | Colors.grey      |
@@ -171,7 +174,7 @@ See the [demo](https://github.com/saytoonz/flutter_social_keyboard/blob/master/e
 | skinToneDialogBgColor     | The background color of the skin tone dialog                               | Colors.white     |
 | skinToneIndicatorColor     | Color of the small triangle next to multiple skin tone emoji                               | Colors.grey     |
 | enableSkinTones     | Enable feature to select a skin tone of certain emoji's                               | true     |
-| showRecentsTab     | Show extra tab with recently used emoji                                | true     |
+| showRecentsTab     | Show extra tab with recently used emoji, sticker or gif                                | true     |
 | recentsLimit     | Limit of recently used emoji that will be saved                                | 28     |
 | replaceEmojiOnLimitExceed | Replace latest emoji on recents list on limit exceed | false
 | noRecents     |  A widget (usually [Text]) to be displayed if no recent emojis to display                                | Text('No Recents', style: TextStyle(fontSize: 20, color: Colors.black26), textAlign: TextAlign.center)     |
@@ -236,6 +239,7 @@ Please file feature requests and bugs at the [issue tracker][tracker].
 [<img align="left" alt="Sam | LinkedIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />](https://www.linkedin.com/in/samuel-annin-yeboah-427564142/)
 [<img align="left" alt="Sam | Instagram" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/instagram.svg" />](https://instagram.com/saytoonz)
 
+<br>
 
 ## Visitors Count
 <img align="left" src = "https://profile-counter.glitch.me/flutter_social_keyboard/count.svg" alt ="Loading">
