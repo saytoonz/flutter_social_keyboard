@@ -26,10 +26,10 @@ class GiphyGifPickerUtils {
   Future addGiphyGifToRecentlyUsed({
     // required GlobalKey<GiphyDisplayState> key,
     required GiphyGif giphyGif,
-    KeyboardConfig config = const KeyboardConfig(),
+    KeyboardConfig keyboardConfig = const KeyboardConfig(),
   }) async {
     return GiphyGifPickerInternalUtils()
-        .addGiphyGifToRecentlyUsed(giphyGif: giphyGif, config: config);
+        .addGiphyGifToRecentlyUsed(giphyGif: giphyGif, config: keyboardConfig);
     // .then((recentStickerList) =>
     //     key.currentState?.updateRecentGiphyGifs(recentStickerList));
   }
