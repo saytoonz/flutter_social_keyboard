@@ -45,7 +45,7 @@ Import get in files that it will be used:
 ```dart
 import 'package:flutter_social_keyboard/flutter_social_keyboard.dart';
 ```
-.
+<br>
 
 ### Emoji setup
 - Do nothing
@@ -61,9 +61,15 @@ Package depends on your project asset for sticker images
 - Create an **asset** folder in your project directory (name must be *asset*)
 - Create a folder named **stickers** within the asset folder
 - Create sub-folders in the sticker containing an the sticker asset files
+<br>
+<img src="screenshots/sticker-folder-setup.PNG" width="250">
+<br>
 - Folder names of the sub-folders in the sticker folders are considered as categories and tab names
 - Supported files include **.png**, **.gif**, **.webp**, **.jpg** and **.jpeg**,
 - Link all sticker folders in the pubspec.yaml file
+<br>
+<img src="screenshots/sticker-pub-setup.PNG" width="250">
+<br>
 
 
 
@@ -211,9 +217,9 @@ final addRecentGif = await GiphyGifPickerUtils().addGiphyGifToRecentlyUsed(giphy
 ## Feel free to contribute to this package!! 🙇‍♂️
 Always happy if anyone wants to help to improve this package!
 <br>
-<img src="EmojiShot.PNG" width="250">
-<img src="GiphyGifShot.PNG" width="250">
-<img src="StickerShot.PNG" width="250">
+<img src="screenshots/EmojiShot.PNG" width="250">
+<img src="screenshots/GiphyGifShot.PNG" width="250">
+<img src="screenshots/StickerShot.PNG" width="250">
 
 ## Feature Requests and Issues
 Please file feature requests and bugs at the [issue tracker][tracker].
