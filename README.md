@@ -210,6 +210,7 @@ final addRecentGif = await GiphyGifPickerUtils().addGiphyGifToRecentlyUsed(giphy
 
 ## Feel free to contribute to this package!! 🙇‍♂️
 Always happy if anyone wants to help to improve this package!
+<br>
 <img src="EmojiShot.PNG" width="300">
 <img src="GiphyGifShot.PNG" width="300">
 <img src="StickerShot.PNG" width="300">
