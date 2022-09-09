@@ -28,10 +28,10 @@ class StickerPickerUtils {
   Future addStickerToRecentlyUsed({
     required GlobalKey<StickerPickerWidgetState> key,
     required Sticker sticker,
-    KeyboardConfig config = const KeyboardConfig(),
+    KeyboardConfig keyboardConfig = const KeyboardConfig(),
   }) async {
     return StickerPickerInternalUtils()
-        .addStickerToRecentlyUsed(sticker: sticker, config: config)
+        .addStickerToRecentlyUsed(sticker: sticker, config: keyboardConfig)
         .then((recentStickerList) =>
             key.currentState?.updateRecentSticker(recentStickerList));
   }
