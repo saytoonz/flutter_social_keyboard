@@ -211,10 +211,8 @@ final addRecentGif = await GiphyGifPickerUtils().addGiphyGifToRecentlyUsed(giphy
 ## Feel free to contribute to this package!! 🙇‍♂️
 Always happy if anyone wants to help to improve this package!
 ![](EmojiShot.PNG)
-
-![](GiphyGifShot.PNG)
-
-![](StickerShot.PNG)
+<img src="GiphyGifShot.PNG" width="300">
+<img src="StickerShot.PNG" width="300">
 
 ## Feature Requests and Issues
 Please file feature requests and bugs at the [issue tracker][tracker].
