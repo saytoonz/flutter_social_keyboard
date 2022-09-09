@@ -119,7 +119,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 useEmoji: true,
                 useGif: true,
                 useSticker: true,
-                giphyAPIKey: "vkOdSI3QLuAopjBKdwzeLC0mTCRJXIQM",
+                giphyAPIKey: "",
                 gifTabs: ["Hey", "One", 'Haha', 'Sad', 'Love', 'Reaction'],
                 gifHorizontalSpacing: 5,
                 gifVerticalSpacing: 5,
