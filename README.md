@@ -6,7 +6,10 @@ Fully customizable Emoji picker, Gif picker and Sticker for your flutter social 
   > **Acknowledgment:** Much thanks to [Stefan Humm](https://github.com/Fintasys) for [emoji_picker_flutter](https://pub.dev/packages/emoji_picker_flutter).
 
 ## Preview
-![](preview.gif)
+<img src="screenshots/emoji_motion.webp" width="250">
+<img src="screenshots/emoji_motion.webp" width="250">
+<img src="screenshots/emoji_motion.webp" width="250">
+
 
 ## Support
 If the package was useful or saved your time, please do not hesitate to buy me a cup of coffee! ;)  
@@ -62,13 +65,13 @@ Package depends on your project asset for sticker images
 - Create a folder named **stickers** within the asset folder
 - Create sub-folders in the sticker containing an the sticker asset files
 <br>
-<img src="screenshots/sticker-folder-setup.PNG" width="250">
+<img src="screenshots/sticker-folder-setup.png" width="250">
 <br>
 - Folder names of the sub-folders in the sticker folders are considered as categories and tab names
-- Supported files include **.png**, **.gif**, **.webp**, **.jpg** and **.jpeg**,
+- Supported files include .png, .gif, .webp, .jpg and .jpeg,
 - Link all sticker folders in the pubspec.yaml file
 <br>
-<img src="screenshots/sticker-pub-setup.PNG" width="250">
+<img src="screenshots/sticker-pub-setup.png" width="250">
 <br>
 
 
